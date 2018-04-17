@@ -442,7 +442,7 @@
 												        <div class='col-sm-6'>
 														<label>Fecha de Entrada - Fecha de Salida*</label>
 
-															<input type="text" name="entrada-salida" class="form-control rangepicker" value="{{ date('Y-m-d') }} - {{ date('Y-m-d') }}" data-format="yyyy-mm-dd" data-from="{{ date('YYYY-m-d') }}" data-to="{{ date('YYYY-m-d') }}" required>
+															<input type="text" name="entrada-salida" class="form-control rangepicker validate" value="{{ date('Y-m-d') }} - {{ date('Y-m-d') }}" data-format="yyyy-mm-dd" data-from="{{ date('YYYY-m-d') }}" data-to="{{ date('YYYY-m-d') }}" required>
 
 															<input type="hidden" class="form-control datepicker" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 
@@ -481,6 +481,12 @@
 
 															<input type="hidden" id="contact-llegada" name="contact-llegada" value="">
 															<input type="hidden" id="contact-salida" name="contact-salida" value="">
+
+								<input type="hidden" id="contact-name" name="contact-name" value="{{ $cliente->name }}">
+								<input type="hidden" id="contact-email" name="contact-email" value="{{ $cliente->email }}">
+								<input type="hidden" id="contact-phone" name="contact-phone" value="{{ $cliente->str_telefono }}">
+								<input type="hidden" id="contact-id" name="contact-id" value="{{ $cliente->id }}">
+
 														
 															{!! Form::submit('BUSCAR DISPONIBILIDAD', ['class' => 'btn btn-3d btn-teal btn-xlg btn-block margin-top-30']) !!}																								
 														</div>

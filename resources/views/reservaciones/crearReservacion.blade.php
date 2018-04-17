@@ -90,11 +90,39 @@
 												<!-- required [php action request] -->
 												<input type="hidden" name="action" value="contact_send" />
 
+
 												<div class="row">
 													<div class="form-group">
 
 												        <div class='col-sm-6'>
-														<label>Fecha de Entrada</label>
+
+															<label><strong>Tipo de Habitación:</strong></label>
+
+															{{ $persona['contact-habitacion'] }}
+
+															<input type="hidden" name="contact-idHabitacion" value="{{ $persona['contact-idHabitacion'] }}	">
+
+												        </div>
+
+														<div class='col-md-6 col-sm-6'>
+
+															<label><strong>Precio:</strong></label>
+
+															{{ $persona['contact-precioHabitacion'] }}
+
+															<input type="hidden" name="contact-precioHabitacion" value="{{ $persona['contact-precioHabitacion'] }}	">
+
+													    </div>												        
+
+													</div>
+												</div>
+
+												<div class="row">
+
+													<div class="form-group">
+
+												        <div class='col-sm-6'>
+														<label><strong>Fecha de Entrada:</strong></label>
 
 					                                        <?php
 
@@ -102,13 +130,14 @@
 					                                            $fecha_entrada = $date1->format('d-m-Y');
 					                                        ?>
 
-					                                        {{ $fecha_entrada }}					                                  
+					                                        {{ $fecha_entrada }}
 
+															<input type="hidden" name="contact-llegada" value="{{ $persona['contact-llegada'] }}	">					                       
 												        </div>
 
 														<div class='col-md-6 col-sm-6'>
 
-															<label>Fecha de Salida</label>
+															<label><strong>Fecha de Salida:</strong></label>
 
 					                                        <?php
 
@@ -116,7 +145,9 @@
 					                                            $fecha_salida = $date2->format('d-m-Y');
 					                                        ?>
 
-					                                        {{ $fecha_salida }}		
+					                                        {{ $fecha_salida }}	
+
+					                                        <input type="hidden" name="contact-salida" value="{{ $persona['contact-salida'] }}	">	
 
 													    </div>												        
 
@@ -127,17 +158,22 @@
 													<div class="form-group">
 
 												        <div class='col-sm-6'>
-														<label>Fecha de Entrada - Fecha de Salida*</label>
 
+															<label><strong>Cantidad de días:</strong></label>
 
+															{{ $persona['cant-dias'] }}
+
+															<input type="hidden" name="cant-dias" value="{{ $persona['cant-dias'] }}">
 
 												        </div>
 
 														<div class='col-md-6 col-sm-6'>
 
-															<label>Tipo de Habitación *</label>
+															<label><strong>Total a pagar:</strong></label>
 
-															
+															{{ $persona['contact-totalPagar'] }}
+
+															<input type="hidden" name="contact-totalPagar" value="{{ $persona['contact-totalPagar'] }}">															
 													    </div>												        
 
 													</div>
@@ -146,12 +182,61 @@
 												<div class="row">
 													<div class="form-group">
 
+												        <div class='col-sm-6'>
+
+															<label><strong>Nombre:</strong></label>
+
+															{{ $persona['contact-name'] }}
+
+															<input type="hidden" name="contact-name" value="{{ $persona['contact-name'] }}">	
+
+															<input type="hidden" name="contact-id" value="{{ $persona['contact-id'] }}">	
+
+												        </div>
+
+														<div class='col-md-6 col-sm-6'>
+															
+															<label><strong>Correo Electrónico:</strong></label>
+
+															{{ $persona['contact-email'] }}
+
+															<input type="hidden" name="contact-email" value="{{ $persona['contact-email'] }}">																
+
+													    </div>												        
+
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="form-group">
+
+												        <div class='col-sm-6'>
+
+															<label><strong>Teléfono:</strong></label>
+
+															{{ $persona['contact-phone'] }}
+
+															<input type="hidden" name="contact-phone" value="{{ $persona['contact-phone'] }}">	
+
+												        </div>
+
+														<div class='col-md-6 col-sm-6'>
+																													
+
+													    </div>												        
+
+													</div>
+												</div>																									
+
+												<div class="row">
+													<div class="form-group">
+
 													    <div class='col-md-6 col-sm-6'>
 
-															<label>Cantidad de Adultos *</label>
+															<label><strong>Cantidad de Adultos *</strong></label>
 															<label class="input margin-bottom-10">
 															
-																<select name="int_adultos" class="form-control pointer required">
+																<select name="contact-adultos" class="form-control pointer required">
 																	<option value="">Seleccione</option>
 																	<option value="1 Adulto">1 Adulto</option>
 																	<option value="2 Adulto">2 Adultos</option>
@@ -171,10 +256,10 @@
 
 													    <div class='col-md-6 col-sm-6'>
 
-															<label>Cantidad de Niños *</label>
+															<label><strong>Cantidad de Niños *</strong></label>
 															<label class="input margin-bottom-10">
 															
-																<select name="int_ninos" class="form-control pointer required">								<option value="">Seleccione</option>			
+																<select name="contact-ninos" class="form-control pointer required">			<option value="">Seleccione</option>			
 																	<option value="0 Niños">0 Niños</option>
 																	<option value="1 Niño">1 Niño</option>
 																	<option value="2 Niños">2 Niños</option>
@@ -195,8 +280,8 @@
 														<div class="col-md-12 col-sm-12">
 
 															<div class="form-group">
-															  <label for="comment">Mensaje:</label>
-															  <textarea class="form-control" rows="5" id="str_mensaje"></textarea>
+															  <label for="comment"><strong>Mensaje:</strong></label>
+															  <textarea name="contact-message" class="form-control" rows="5" id="str_mensaje"></textarea>
 															</div>															
 																																			
 														</div>

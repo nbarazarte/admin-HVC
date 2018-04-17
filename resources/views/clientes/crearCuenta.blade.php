@@ -61,7 +61,7 @@
 
 								<div class="panel-body">
 
-									{!! Form::open(['route' => 'registrarCli', 'id' => 'demo-form', '', 'enctype'=>'multipart/form-data', 'class' => 'sky-form boxed ', 'data-success' => 'Se ha creado el Cliente con éxito','data-toastr-position' => 'top-right']) !!} 										
+									{!! Form::open(['route' => 'registrarCli', 'id' => 'demo-form', '', 'enctype'=>'multipart/form-data', 'class' => 'sky-form boxed validate', 'data-success' => 'Se ha creado el Cliente con éxito','data-toastr-position' => 'top-right']) !!} 										
 <!-- validate -->
 											<fieldset>
 												
@@ -167,7 +167,7 @@
 														<label>Teléfono *</label>
 														<label class="input">
 															<i class="icon-append fa fa-volume-control-phone" aria-hidden="true"></i>
-															{!! Form::input('text', 'str_telefono', '', ['id' => 'str_telefono', 'class'=> 'form-control masked','maxlength'=> '18','data-format' => '(9999) 999-9999', 'data-placeholder' => '0', 'placeholder' => 'Ej.: (0414) 555-4433']) !!}																
+															{!! Form::input('text', 'str_telefono', '', ['id' => 'str_telefono', 'class'=> 'form-control masked required','maxlength'=> '18','data-format' => '(9999) 999-9999', 'data-placeholder' => '0', 'placeholder' => 'Ej.: (0414) 555-4433']) !!}																
 															<span class="tooltip tooltip-top-right">Ingrese el número de teléfono del cliente</span>
 														</label>
 													</div>

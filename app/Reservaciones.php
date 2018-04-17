@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
-class Post extends Model
+class Reservaciones extends Model
 {
 
 /**

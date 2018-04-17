@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Reservacion;
+use App\Reservaciones;
 use App\Categoria;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -231,8 +231,8 @@ class ReservacionController extends Controller
         $this->create($request->all());
 
         //return redirect($this->redirectPath()); 
-        Session::flash('message','¡La reservación ha sido creado con éxito!');
-        return Redirect::to('/Crear-Reservación'); 
+        Session::flash('message','¡La reservación ha sido creada con éxito!');
+        return Redirect::to('/Buscar-Clientes'); 
         
     }
 
@@ -246,11 +246,17 @@ class ReservacionController extends Controller
     {
         return Validator::make($data, [
                 
-            'str_tipo' => 'required|max:255',
-            'lng_idautor' => 'required|max:255',
-            'str_titulo' => 'required|max:255',
-            'str_Reservacion_resumen' => 'required', 
-            'str_Reservacion' => 'required',      
+            'contact-idHabitacion' => 'required|max:255',
+            'contact-llegada' => 'required|max:255',
+            'contact-salida' => 'required|max:255',  
+            'contact-email' => 'required|max:255',
+            'contact-name' => 'required|max:255',
+            'contact-phone' => 'required|max:255',
+            'contact-precioHabitacion' => 'required|max:255',     
+            'contact-ninos' => 'required|max:255',
+            'contact-adultos' => 'required|max:255',
+            'cant-dias' => 'required|max:255',
+            'contact-totalPagar' => 'required|max:255',  
 
         ]);
     }
@@ -264,127 +270,40 @@ class ReservacionController extends Controller
     protected function create(array $data)
     {
 
-        $titulo = str_replace(" ","-",$data['str_titulo']);   
-           
-        if($data['str_tipo'] == 'simple'){
 
-            //echo Auth::user()->id;
-            //die();
+        return Reservaciones::create([
 
-            $reservacion = Reservacion::create([
+            'lng_idpersona' => $data['contact-id'],
+            'lng_idtipohab' => $data['contact-idHabitacion'],
+            'dmt_fecha_entrada' => $data['contact-llegada'],
+            'dmt_fecha_salida' => $data['contact-salida'],
+            'str_codigo' => \Auth::user()->id.$this->generarCodigo(100),
+            'str_email' => $data['contact-email'],
+            'str_nombre' => $data['contact-name'],
+            'str_telefono' => $data['contact-phone'],
+            'dbl_precio' => $data['contact-precioHabitacion'],
+            'int_ninos' => $data['contact-ninos'],
+            'int_adultos' => $data['contact-adultos'],
+            'int_dias' => $data['cant-dias'],
+            'str_mensaje' => $data['contact-message'],
+            'dbl_total_pagar' => $data['contact-totalPagar'],  
 
-            'lng_idadmin' =>  Auth::user()->id,    
-            'str_tipo' =>  $data['str_tipo'],
-            'lng_idautor' =>  $data['lng_idautor'],
-            'str_titulo' => $titulo,
-            'str_Reservacion_resumen' => $data['str_Reservacion_resumen'],
-            'str_Reservacion' => $data['str_Reservacion'],
-            'str_estatus' => 'inactivo',
-            ]);
-
-        }else if($data['str_tipo'] == 'imagen'){ 
-
-            $img1 = base64_encode(file_get_contents($data['blb_img1']));      
-
-            $reservacion = Reservacion::create([
-
-            'lng_idadmin' =>  Auth::user()->id,
-            'str_tipo' =>  $data['str_tipo'],
-            'lng_idautor' =>  $data['lng_idautor'],
-            'str_titulo' => $titulo,
-            'str_Reservacion_resumen' => $data['str_Reservacion_resumen'],
-            'str_Reservacion' => $data['str_Reservacion'],
-            'blb_img1' => $img1,
-            'str_estatus' => 'inactivo',
-            ]); 
-
-        }else if($data['str_tipo'] == 'carrusel-imagen'){
-
-            $img1 = base64_encode(file_get_contents($data['blb_img1']));
-            $img2 = base64_encode(file_get_contents($data['blb_img2']));
-
-            if(empty($data['blb_img3'])){
-
-                $img3 = $data['blb_img3'];
-            }else{
-                $img3 = base64_encode(file_get_contents($data['blb_img3']));
-            } 
-
-            $reservacion = Reservacion::create([
-
-            'lng_idadmin' =>  Auth::user()->id,
-            'str_tipo' =>  $data['str_tipo'],
-            'lng_idautor' =>  $data['lng_idautor'],
-            'str_titulo' => $titulo,
-            'str_Reservacion_resumen' => $data['str_Reservacion_resumen'],
-            'str_Reservacion' => $data['str_Reservacion'],
-            'blb_img1' => $img1,
-            'blb_img2' => $img2,
-            'blb_img3' => $img3,
-            'str_estatus' => 'inactivo',
-            ]); 
-
-        }else if($data['str_tipo'] == 'video'){
-
-            $reservacion = Reservacion::create([
-
-            'lng_idadmin' =>  Auth::user()->id, 
-            'str_tipo' =>  $data['str_tipo'],
-            'lng_idautor' =>  $data['lng_idautor'],
-            'str_titulo' => $titulo,
-            'str_Reservacion_resumen' => $data['str_Reservacion_resumen'],
-            'str_Reservacion' => $data['str_Reservacion'],
-            'str_video' => $data['str_video'],
-            'str_estatus' => 'inactivo',
-            ]); 
-
-        }else if($data['str_tipo'] == 'audio'){
-
-            $reservacion = Reservacion::create([
-
-            'lng_idadmin' =>  Auth::user()->id,    
-            'str_tipo' =>  $data['str_tipo'],
-            'lng_idautor' =>  $data['lng_idautor'],
-            'str_titulo' => $titulo,
-            'str_Reservacion_resumen' => $data['str_Reservacion_resumen'],
-            'str_Reservacion' => $data['str_Reservacion'],
-            'str_audio' => $data['str_audio'],
-            'str_estatus' => 'inactivo',
-            ]); 
-
-        }
-
-        $lastInsertedId = $reservacion->id;
-
-
-        if(!empty($data['str_categoria'])){
-
-            //dd($data['str_categoria']);
-            //die();
-
-            $categorias = array_values($data['str_categoria']);
-            
-            $total_categorias = count($categorias);
-            
-            for ($i = 0; $i <= $total_categorias - 1; $i++)
-            {
-                $categoriasReservacion = Categoria::create([
-                    'lng_idReservacion' => $lastInsertedId,
-                    'str_categoria' => $categorias[$i],
-                ]);
-            }
-
-            return $categoriasReservacion;
-
-        }else{
-
-            return $reservacion;
-
-        }
-
-
+        ]);
   
     }
+
+
+    public function generarCodigo($longitud) {
+        $key = '';
+
+        $date=date_create();
+        //echo date_timestamp_get($date);  
+        $pattern = date_timestamp_get($date).'1234567890abcdefghijklmnopqrstuvwxyz';
+        $max = strlen($pattern)-1;
+        for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
+
+        return $key;
+    } 
 
     /**
      * Display a listing of the resource.
