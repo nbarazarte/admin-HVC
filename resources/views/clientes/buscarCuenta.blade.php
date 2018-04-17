@@ -15,10 +15,10 @@
 
 				<!-- page title -->
 				<header id="page-header">
-					<h1>Buscar Autor iLernus</h1>
+					<h1>Buscar Clientes</h1>
 					<ol class="breadcrumb">
 					 <li><a href="{{ route('home')}}">Dashboard</a></li>
-					  <li class="active">Buscar Autor iLernus</li>
+					  <li class="active">Buscar Clientes</li>
 					</ol>
 
 
@@ -44,7 +44,7 @@
 					<div id="panel-1" class="panel panel-default">
 						<div class="panel-heading">
 							<span class="title elipsis">
-								<strong>LISTADO DE AUTORES DE ILERNUS</strong> <!-- panel title -->
+								<strong>LISTADO DE CLIENTES DE HVC</strong> <!-- panel title -->
 							</span>
 
 							<!-- right options -->
@@ -67,20 +67,20 @@
 										<th>Imágen</th>
 										<th>Nombre</th>
 										<th>Género</th>
-										<th>Profesión</th>
-										<th>Usuario</th>
+										<th>Cédula/Pasaporte</th>
+										<th>País</th>
 									</tr>
 								</thead>
 
 								<tbody>
 
-									@foreach ($autores as $autor)
+									@foreach ($clientes as $cliente)
 
 										<tr class="odd gradeX">
 
 												<td>
 
-													<a href="{{ route('cuentaAu',[$autor->id]) }}" type="button" class="btn btn-warning">
+													<a href="{{ route('cuentaCli',[$cliente->id]) }}" type="button" class="btn btn-warning">
 														
 														<i class="fa fa-search" aria-hidden="true"></i>
 
@@ -90,21 +90,21 @@
 
 												<td>
 
-						                            @if ($autor->blb_img != "")
+						                            @if ($cliente->blb_img != "")
 													  	<center>
 														  	<figure class="margin-bottom-10"><!-- image -->						                            
-						                            			<img src="data:image/jpeg;base64,{{ $autor->blb_img }}" alt="{!! $autor->str_nombre !!}" title="{!! $autor->str_nombre !!}" height="34">
+						                            			<img src="data:image/jpeg;base64,{{ $cliente->blb_img }}" alt="{!! $cliente->name !!}" title="{!! $cliente->name !!}" height="34">
 						                            		</figure>
 						                            	</center>
 													@else
 
-													  @if ($autor->str_genero == 'Masculino')
+													  @if ($cliente->str_genero == 'Masculino')
 													  	<center>
 														  	<figure class="margin-bottom-10"><!-- image -->
 														  		<img src="{{ asset('smarty/assets/images/user_masculino.png') }}" alt="" height="34">
 														  	</figure>
 													  	</center>						  	
-													  @elseif ($autor->str_genero == 'Femenino')
+													  @elseif ($cliente->str_genero == 'Femenino')
 													  	<center>
 														  	<figure class="margin-bottom-10"><!-- image -->
 														  		<img src="{{ asset('smarty/assets/images/user_femenino.png') }}" alt="" height="34">
@@ -117,19 +117,19 @@
 												</td>												
 
 												<td>
-													 	{{ ucfirst($autor->str_nombre) }} 
+													 	{{ ucfirst($cliente->name) }} 
 												</td>
 												<td>
 
-														{{ $autor->str_genero }}
+														{{ $cliente->str_genero }}
 
 												</td>
 												<td>
-													 	{{ $autor->str_profesion }}
+													 	{{ $cliente->str_ci_pasaporte }}
 												</td>											
 
 												<td>
-													 	{{ $autor->usuario }}
+													 	{{ $cliente->str_pais }}
 												</td>
 
 										</tr>

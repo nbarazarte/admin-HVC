@@ -2,6 +2,17 @@
 
 @section('content')
 
+
+    @foreach ($datos[0][0]['datos'] as $dato => $valor)
+
+    <?php
+
+        $persona[$dato] = $valor; 
+        
+    ?>    
+
+    @endforeach
+
 @include('menu')
 
 			<!-- 
@@ -12,10 +23,10 @@
 
 				<!-- page title -->
 				<header id="page-header">
-					<h1>Crear Post de Ilernus</h1>
+					<h1>Crear Reservación</h1>
 					<ol class="breadcrumb">
 						<li><a href="{{ route('home')}}">Dashboard</a></li>
-						<li class="active">Crear Post de Ilernus</li>
+						<li class="active">Crear Reservación</li>
 					</ol>
 				</header>
 				<!-- /page title -->
@@ -57,7 +68,7 @@
 
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>Datos del Post</strong> <!-- panel title -->
+										<strong>Datos de la Reservación</strong> <!-- panel title -->
 									</span>
 
 									<!-- right options -->
@@ -72,62 +83,42 @@
 
 								<div class="panel-body">
 
-								{!! Form::open(['route' => 'registrarPost', 'id' => 'demo-form', '', 'enctype'=>'multipart/form-data', 'class' => 'sky-form boxed ', 'data-success' => 'Se ha creado el Post con éxito','data-toastr-position' => 'top-right']) !!} 										
+								{!! Form::open(['route' => 'registrarReservacion', 'id' => 'demo-form', '', 'enctype'=>'multipart/form-data', 'class' => 'sky-form boxed ', 'data-success' => 'Se ha creado la reservación con éxito','data-toastr-position' => 'top-right']) !!} 										
 
 											<fieldset>
 												
 												<!-- required [php action request] -->
 												<input type="hidden" name="action" value="contact_send" />
 
-
-
 												<div class="row">
 													<div class="form-group">
 
+												        <div class='col-sm-6'>
+														<label>Fecha de Entrada</label>
 
+					                                        <?php
 
-														<div class="col-md-6 col-sm-6">
-															<label>Tipo de Post *</label>
-															<label class="input margin-bottom-10">
-															
+					                                            $date1 = new DateTime($persona['contact-llegada']);
+					                                            $fecha_entrada = $date1->format('d-m-Y');
+					                                        ?>
 
-											 					<select id="str_tipo" name="str_tipo" class="form-control required" onchange="showfieldTipo(this.options[this.selectedIndex].value)">
-											 						<option value="">Seleccione</option>
-											 						<option value="simple">Post Simple</option>
-											 						<option value="imagen">Post con sólo una imágen</option>
-											 						<option value="carrusel-imagen">Post con carrusel de imágenes</option>
-											 						<option value="video">Post con video</option>
-											 						<option value="audio">Post con audio</option>
-											 					</select>
+					                                        {{ $fecha_entrada }}					                                  
 
-																
-															</label>
-														</div>
+												        </div>
 
-														<div class="col-md-6 col-sm-6">
-															<label>Etiquetas</label>
-															
-															<input class="pull-right" type="checkbox" name="categoria" value="" onclick="todasEtiquetas()">
-															<label class="pull-right"> Seleccionar todas &nbsp;</label>
+														<div class='col-md-6 col-sm-6'>
 
-															<div class="row">
+															<label>Fecha de Salida</label>
 
-															@foreach($etiquetas as $clave => $valor)
-											
-																<div class="col-md-4">
+					                                        <?php
 
-			                                                        
+					                                            $date2 = new DateTime($persona['contact-salida']);
+					                                            $fecha_salida = $date2->format('d-m-Y');
+					                                        ?>
 
-																	<input class="" type="checkbox" name="str_categoria[]" value="{{ $valor }}">			                                                        
-			                                                        {!! Form::label('str_categoria', $valor) !!}           
+					                                        {{ $fecha_salida }}		
 
-																</div>
-
-															@endforeach
-
-															</div>
-
-														</div>
+													    </div>												        
 
 													</div>
 												</div>
@@ -135,50 +126,64 @@
 												<div class="row">
 													<div class="form-group">
 
-														<div class="col-md-6 col-sm-6">
-															<label>Autor *</label>
-															<label class="input margin-bottom-10">
-															<i class="icon-append fa fa-user" aria-hidden="true"></i>
+												        <div class='col-sm-6'>
+														<label>Fecha de Entrada - Fecha de Salida*</label>
 
-											 					{!! Form::select('lng_idautor', 
-											                                        (['' => 'Seleccione'] + $autores), 
-											                                        null, 
-											                                        ['class' => 'form-control pointer required', 'id' =>'lng_idautor', 'onchange' => '']
-											                                    ) 
-											                    !!} 
 
-																<span class="tooltip tooltip-top-right">seleccione el autor del Post</span>
-															</label>
-														</div>
 
-														<div class="col-md-6 col-sm-6">
+												        </div>
 
-															<label>Título del Post *</label>
-	
-															<label class="input">
-																<i class="icon-append fa fa-edit"></i>
-																{!! Form::input('text', 'str_titulo', '', ['id' => 'str_titulo', 'class'=> 'form-control required','maxlength'=> '100']) !!}  
-																<span class="tooltip tooltip-top-right">Ingrese el título del Post</span>
-															</label>
-														</div>
+														<div class='col-md-6 col-sm-6'>
+
+															<label>Tipo de Habitación *</label>
+
+															
+													    </div>												        
 
 													</div>
 												</div>
 
-												<div id="div2"></div>
-
 												<div class="row">
-
 													<div class="form-group">
 
-														<div class="col-md-12 col-sm-12">
-															<label>
-																Resumen del Post *
-																<small class="text-muted"></small>
+													    <div class='col-md-6 col-sm-6'>
+
+															<label>Cantidad de Adultos *</label>
+															<label class="input margin-bottom-10">
+															
+																<select name="int_adultos" class="form-control pointer required">
+																	<option value="">Seleccione</option>
+																	<option value="1 Adulto">1 Adulto</option>
+																	<option value="2 Adulto">2 Adultos</option>
+																	<option value="3 Adulto">3 Adultos</option>
+																	<option value="4 Adulto">4 Adultos</option>
+																	<option value="5 Adulto">5 Adultos</option>
+																	<option value="6 Adulto">6 Adultos</option>
+																	<option value="7 Adulto">7 Adultos</option>
+																	<option value="8 Adulto">8 Adultos</option>
+																	<option value="9 Adulto">9 Adultos</option>
+
+																</select>
+
 															</label>
 
-															<textarea name="str_post_resumen" class="summernote form-control required" data-height="200" data-lang="en-US"></textarea>										
-														</div>
+													    </div>
+
+													    <div class='col-md-6 col-sm-6'>
+
+															<label>Cantidad de Niños *</label>
+															<label class="input margin-bottom-10">
+															
+																<select name="int_ninos" class="form-control pointer required">								<option value="">Seleccione</option>			
+																	<option value="0 Niños">0 Niños</option>
+																	<option value="1 Niño">1 Niño</option>
+																	<option value="2 Niños">2 Niños</option>
+
+																</select>
+
+															</label>
+
+													    </div>													    
 
 													</div>
 												</div>
@@ -188,18 +193,15 @@
 													<div class="form-group">
 
 														<div class="col-md-12 col-sm-12">
-															<label>
-																Post *
-																<small class="text-muted"></small>
-															</label>
 
-															<textarea name="str_post" class="summernote form-control required" data-height="200" data-lang="en-US"></textarea>										
+															<div class="form-group">
+															  <label for="comment">Mensaje:</label>
+															  <textarea class="form-control" rows="5" id="str_mensaje"></textarea>
+															</div>															
+																																			
 														</div>
 													</div>
 												</div>
-
-
-
 
 												<div class="row">
 
@@ -207,7 +209,7 @@
 
 														<div class="col-md-11 col-sm-11">
 														
-															{!! Form::submit('CREAR POST', ['class' => 'btn btn-3d btn-teal btn-xlg btn-block margin-top-30']) !!}																								
+															{!! Form::submit('CREAR RESERVACIÓN', ['class' => 'btn btn-3d btn-teal btn-xlg btn-block margin-top-30']) !!}																								
 														</div>
 													</div>
 												</div>

@@ -140,7 +140,7 @@
 															<label class="input">
 																<i class="icon-append fa fa-volume-control-phone" aria-hidden="true"></i>
 																{!! Form::input('text', 'str_telefono', '', ['id' => 'str_telefono', 'class'=> 'form-control masked','maxlength'=> '18','data-format' => '(9999) 999-9999', 'data-placeholder' => '0', 'placeholder' => 'Ej.: (0414) 555-4433']) !!}																
-																<span class="tooltip tooltip-top-right">Ingrese la cédula del usuario</span>
+																<span class="tooltip tooltip-top-right">Ingrese el númer de teléfono del usuario</span>
 															</label>
 														</div>
 													</div>

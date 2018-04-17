@@ -25,23 +25,25 @@ class HomeController extends Controller
     public function index()
     {
         
-        $totalCursos = DB::table('tbl_cursos')->count();
+        $totalReservaciones = DB::table('tbl_reservaciones')->count();
 
-        $totalInstructores = DB::table('tbl_instructores')->count();
+        $totalReservaciones = DB::table('tbl_reservaciones')->count();
 
-        $instructores = DB::table('tbl_instructores')->get();
+        $clientes = DB::table('users')->get();
 
-        $cursos = DB::table('tbl_cursos')->get();
+        $reservaciones = DB::table('tbl_reservaciones')->get();
 
-        $negocios = DB::table('tbl_cursos')->where('str_categoria', 'negocios')->count();
 
-        $desarrollo = DB::table('tbl_cursos')->where('str_categoria', 'desarrollo')->count();
 
-        $productividad = DB::table('tbl_cursos')->where('str_categoria', 'productividad')->count();
+        $matrimonial = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
 
-        $tecnologia = DB::table('tbl_cursos')->where('str_categoria', 'tecnologia')->count();
+        $matrimonialSofa = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
 
-        return \View::make('index', compact('totalCursos','totalInstructores','instructores','cursos','negocios','desarrollo','productividad','tecnologia'));
+        $doble = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
+
+        $duplex = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
+
+        return \View::make('index', compact('totalReservaciones','totalInstructores','clientes','reservaciones','matrimonial','matrimonialSofa','doble','duplex'));
     }
 
     /**

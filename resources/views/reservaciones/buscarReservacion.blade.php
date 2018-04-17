@@ -15,10 +15,10 @@
 
 				<!-- page title -->
 				<header id="page-header">
-					<h1>Buscar Equipo iLernus</h1>
+					<h1>Buscar Posts de iLernus</h1>
 					<ol class="breadcrumb">
 					 <li><a href="{{ route('home')}}">Dashboard</a></li>
-					  <li class="active">Buscar Equipo iLernus</li>
+					  <li class="active">Buscar Posts de iLernus</li>
 					</ol>
 
 
@@ -44,7 +44,7 @@
 					<div id="panel-1" class="panel panel-default">
 						<div class="panel-heading">
 							<span class="title elipsis">
-								<strong>LISTADO DE GERENTES Y DIRECTORES DE ILERNUS</strong> <!-- panel title -->
+								<strong>LISTADO DE posts DE ILERNUS</strong> <!-- panel title -->
 							</span>
 
 							<!-- right options -->
@@ -65,24 +65,24 @@
 									<tr>
 										<th>Ver</th>
 										<th>Imágen</th>
-										<th>Nombre</th>
-										<th>Género</th>
-										<th>Cargo</th>
+										<th>Título</th>
 										<th>Tipo</th>
-										<th>Orden</th>
+										<th>Autor</th>
+										<th>Fecha</th>
+										<th>Estatus</th>
 										<th>Usuario</th>
 									</tr>
 								</thead>
 
 								<tbody>
 
-									@foreach ($directores as $director)
+									@foreach ($posts as $post)
 
 										<tr class="odd gradeX">
 
 												<td>
 
-													<a href="{{ route('cuentaPi',[$director->id]) }}" type="button" class="btn btn-warning">
+													<a href="{{ route('verPost',[$post->idpost]) }}" type="button" class="btn btn-warning">
 														
 														<i class="fa fa-search" aria-hidden="true"></i>
 
@@ -91,53 +91,87 @@
 												</td>
 
 												<td>
-													
-						                            @if ($director->blb_img != "")
-						                            	<center>
-														  	<figure class="margin-bottom-10"><!-- image -->
-						                            			<img src="data:image/jpeg;base64,{{ $director->blb_img }}" alt="{!! $director->str_nombre !!}" title="{!! $director->str_nombre !!}" height="34">
-						                            		</figure>
-						                            	</center>
-													@else
 
-													  @if ($director->str_sexo == 'Masculino')
+													  @if (( $post->str_tipo == 'imagen') || ($post->str_tipo == 'carrusel-imagen' ))
 													  	<center>
 														  	<figure class="margin-bottom-10"><!-- image -->
-													  			<img src="{{ asset('smarty/assets/images/user_masculino.png') }}" alt="" height="34">
+													  			<img src="data:image/jpeg;base64,{{ $post->blb_img1 }}" alt="" title="" height="34">
 													  		</figure>
 													  	</center>					  	
-													  @elseif ($director->str_sexo == 'Femenino')
+													  @elseif ($post->str_tipo == 'audio')
 													  	<center>
 														  	<figure class="margin-bottom-10"><!-- image -->
-													  			<img src="{{ asset('smarty/assets/images/user_femenino.png') }}" alt="" height="34">
+													  			<i class="fa fa-soundcloud" aria-hidden="true"></i>
+													  		</figure>
+													  	</center>
+													  @elseif ($post->str_tipo == 'video')
+														<div class="margin-bottom-20">
+															<div class="embed-responsive embed-responsive-16by9">
+																{!! html_entity_decode($post->str_video) !!}
+															</div>
+														</div>	
+													  @elseif ($post->str_tipo == 'simple')
+													  	<center>
+														  	<figure class="margin-bottom-10"><!-- image -->
+													  			<i class="fa fa-newspaper-o" aria-hidden="true"></i>
 													  		</figure>
 													  	</center>
 													  @endif
 
-													@endif
 
-												</td>
 
-												<td>
-													 	{{ ucfirst($director->str_nombre) }} 
-												</td>
-												<td>
 
-														{{ $director->str_sexo }}
 
-												</td>
-												<td>
-													 	{{ $director->str_cargo }}
-												</td>
-												<td>
-													 	{{ ucfirst($director->str_tipo) }}
+
 												</td>												
+
 												<td>
-													 	{{ $director->str_orden }}
+													 	{{ str_replace("-"," ",$post->str_titulo) }}
 												</td>
 
 												<td>
-													 	{{ $director->usuario }}
+
+														{{ ucfirst($post->str_tipo) }}
+
+												</td>
+
+												<td>
+
+														<div class="row">
+															<div class="col-md-4">
+															  	<center>
+																  	<figure class="margin-bottom-10"><!-- image -->
+																		<img src="data:image/jpeg;base64,{{ $post->blb_img }}" alt="" title="" height="34">
+																	</figure>
+																</center>
+															</div>
+															<div class="col-md-8">{{ $post->autor }}</div>
+														</div>
+
+
+													 	
+												</td>											
+
+												<td>
+													 	{{ $post->fecha }}
+												</td>
+
+												<td> 
+														{{ $post->str_estatus }}
+												</td>
+												
+												<td> 
+														<div class="row">
+															<div class="col-md-4">
+															  	<center>
+																  	<figure class="margin-bottom-10"><!-- image -->
+																		<img src="data:image/jpeg;base64,{{ $post->img_usuario }}" alt="" title="" height="34">
+																	</figure>
+																</center>
+															</div>
+															<div class="col-md-8">{{ $post->usuario }}</div>
+														</div>
+
 												</td>
 
 										</tr>

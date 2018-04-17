@@ -27,13 +27,13 @@
 						@if (Auth::user()->str_rol == "Administrador")
 
 							@include('rolAdmin')
-							@include('rolBlog')
+							@include('rolReservaciones')
 
 						@endif
 
-						@if (Auth::user()->str_rol == "Blog")
+						@if (Auth::user()->str_rol == "Reservaciones")
 
-							@include('rolBlog')
+							@include('rolReservaciones')
 
 						@endif												
 

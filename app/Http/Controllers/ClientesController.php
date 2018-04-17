@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Autor;
+use App\Cliente;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +15,7 @@ use DB;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 
-class AutoresIlernusController extends Controller
+class ClientesController extends Controller
 {
    
  /**
@@ -46,9 +46,12 @@ class AutoresIlernusController extends Controller
         })
         ->lists('str_descripcion');
 
+        $paises = DB::table('paises')
+        ->lists('str_paises');           
+
         //dd($gerencias);die(); 
 
-        return \View::make('autores.crearCuenta', compact('generos'));
+        return \View::make('clientes.crearCuenta', compact('generos','paises'));
     }
 
   /**
@@ -71,8 +74,8 @@ class AutoresIlernusController extends Controller
         $this->create($request->all());
 
         //return redirect($this->redirectPath()); 
-        Session::flash('message','¡El autor ha sido creado con éxito!');
-        return Redirect::to('/Crear-Autor-iLernus'); 
+        Session::flash('message','¡El cliente ha sido creado con éxito!');
+        return Redirect::to('/Crear-Cliente'); 
         
     }
 
@@ -86,10 +89,12 @@ class AutoresIlernusController extends Controller
     {
         return Validator::make($data, [
                 
-            'str_nombre' => 'required|max:255',
+            'name' => 'required|max:255',
+            'str_ci_pasaporte' => 'required|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'str_pais' => 'required|max:255',
             'str_genero' => 'required|max:255',
-            'str_profesion' => 'required|max:255',        
-            'str_cv' => 'required',       
+            'str_telefono' => 'required|max:255',  
 
         ]);
     }
@@ -103,31 +108,30 @@ class AutoresIlernusController extends Controller
     protected function create(array $data)
     {
         
-
         if(!empty($data['blb_img'])){
 
-            return Autor::create([
+            return Cliente::create([
 
-                'lng_idadmin' =>  Auth::user()->id,
-                'str_nombre' => $data['str_nombre'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'str_telefono' => $data['str_telefono'],
+                'str_ci_pasaporte' => $data['str_ci_pasaporte'],
+                'str_pais' => $data['str_pais'],
                 'str_genero' => $data['str_genero'],
-                'str_profesion' => $data['str_profesion'],
-                'str_cv' => $data['str_cv'],
                 'blb_img' => $data['blb_img'],
                 //'blb_img' => base64_encode(file_get_contents($data['blb_img'])),
-
             ]);
 
         }else{
 
-            return Autor::create([
+            return Cliente::create([
 
-                'lng_idadmin' =>  Auth::user()->id,
-                'str_nombre' => $data['str_nombre'],
-                'str_genero' => $data['str_genero'],
-                'str_profesion' => $data['str_profesion'],
-                'str_cv' => $data['str_cv'],
-
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'str_telefono' => $data['str_telefono'],
+                'str_ci_pasaporte' => $data['str_ci_pasaporte'],
+                'str_pais' => $data['str_pais'],
+                'str_genero' => $data['str_genero'],                
             ]);            
         }
     }
@@ -140,16 +144,15 @@ class AutoresIlernusController extends Controller
     public function buscarCuenta()
     {
 
-        $autores = DB::table('tbl_autores as au')
-                ->join('tbl_admin as admin', 'au.lng_idadmin', '=', 'admin.id')
-                ->where('au.bol_eliminado', '=' ,0)
-                ->select('au.id','au.str_nombre','au.str_genero','au.str_profesion','admin.name as usuario','au.blb_img')
-                ->orderBy('au.str_nombre','asc')
+        $clientes = DB::table('users')
+                ->select('id','name','email','str_ci_pasaporte','blb_img','str_genero','str_pais')
+                ->where('bol_eliminado', '=' ,0)                
+                ->orderBy('name','asc')
                 ->get();
 
-                //dd($autores);die();
+                //dd($clientes);die();
         
-        return \View::make('autores.buscarCuenta', compact('autores'));
+        return \View::make('clientes.buscarCuenta', compact('clientes'));
     }
 
     /**
@@ -168,11 +171,9 @@ class AutoresIlernusController extends Controller
     public function verCuenta($id)
     {
     
-        $autores = DB::table('tbl_autores')
+        $clientes = DB::table('users')
         ->where('id', $id)
-        ->Where(function ($query) {
-            $query->where('bol_eliminado', '=', 0);
-        })
+
         ->get();
 
         $generos = DB::table('cat_datos_maestros')
@@ -181,10 +182,15 @@ class AutoresIlernusController extends Controller
             $query->where('bol_eliminado', '=', 0);
         })
         ->lists('str_descripcion');
+
+        $paises = DB::table('paises')
+        ->lists('str_paises');        
+
+        $habitaciones = DB::table('cat_habitaciones') ->lists('str_habitacion');  
               
 
         //dd($generos);die();
-        return \View::make('autores.cuenta', compact('autores','generos'));
+        return \View::make('clientes.cuenta', compact('clientes','generos','paises','habitaciones'));
     }
 
     public function editarCuenta(Request $request)
@@ -198,45 +204,45 @@ class AutoresIlernusController extends Controller
             );
         }*/
 
-        $autor = Autor::find($request->id);
+        $autor = Cliente::find($request->id);
         $autor->fill($request->all());
         $autor->save();
 
-        Session::flash('message','¡Se han editado los datos del autor con éxito!');
-        return Redirect::to('/Ver-Autor-iLernus-'.$request->id); 
+        Session::flash('message','¡Se han editado los datos del cliente con éxito!');
+        return Redirect::to('/Ver-Cliente-'.$request->id); 
 
     }
 
     public function editarImagen(Request $request)
     {
         
-        $autor = Autor::find($request->id);
+        $autor = Cliente::find($request->id);
         $autor->fill($request->all());
         $autor->save();
 
         Session::flash('message','¡Se ha cambiado la imágen de perfil con éxito!');
-        return Redirect::to('/Ver-Autor-iLernus-'.$request->id); 
+        return Redirect::to('/Ver-Cliente-'.$request->id); 
 
     }
 
     public function eliminarImagen(Request $request)
     {
         
-        $imagen = DB::update('update tbl_autores set blb_img = null where id = '.$request->id.' and bol_eliminado = 0');    
+        $imagen = DB::update('update users set blb_img = null where id = '.$request->id.' and bol_eliminado = 0');    
 
         Session::flash('message','¡Se ha eliminado la imágen de perfil con éxito!');
 
-        return Redirect::to('/Ver-Autor-iLernus-'.$request->id); 
+        return Redirect::to('/Ver-Cliente-'.$request->id); 
        
     }
 
     public function eliminarCuenta(Request $request)
     {
         
-        $cuenta = DB::update('update tbl_autores set bol_eliminado = 1 where id = '.$request->id.' and bol_eliminado = 0');
+        $cuenta = DB::update('update users set bol_eliminado = 1 where id = '.$request->id.' and bol_eliminado = 0');
 
-        Session::flash('message','¡Se ha eliminado la cuenta con éxito!');
-        return Redirect::to('/Buscar-Autor-iLernus'); 
+        Session::flash('message','¡Se ha eliminado el cliente con éxito!');
+        return Redirect::to('/Buscar-Clientes'); 
 
     }
 

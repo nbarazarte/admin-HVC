@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
-class Autor extends Model
+class Cliente extends Model
 {
 
 /**
@@ -14,21 +14,21 @@ class Autor extends Model
      *
      * @var string
      */
-    protected $table = 'tbl_autores';
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['lng_idadmin', 'str_nombre', 'str_genero', 'str_profesion', 'str_cv', 'blb_img', 'bol_eliminado'];
+    protected $fillable = ['name', 'password', 'email', 'str_ci_pasaporte','blb_img','str_pais','str_genero','str_telefono'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['blb_img'];    
+    protected $hidden = ['blb_img', 'password', 'remember_token',];    
         
     public function setBlbimgAttribute($valor){
                 

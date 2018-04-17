@@ -21,7 +21,7 @@
 		<div id="panel-1" class="panel panel-default">
 			<div class="panel-heading">
 				<span class="title elipsis">
-					<strong>Resumen de Cursos</strong> <!-- panel title -->
+					<strong>Resumen del Hotel</strong> <!-- panel title -->
 					<small class="size-12 weight-300 text-mutted hidden-xs">{{ date('Y')}}</small>
 				</span>
 
@@ -52,46 +52,46 @@
 
 				<?php
 
-					$porcentaje_negocios = ($negocios * 100) / $totalCursos;
+					$porcentaje_matrimonial = ($matrimonial * 100) / $totalReservaciones;
 
-					$porcentaje_desarrollo = ($desarrollo * 100) / $totalCursos;
+					$porcentaje_matrimonialSofa = ($matrimonialSofa * 100) / $totalReservaciones;
 
-					$porcentaje_tecnologia = ($tecnologia * 100) / $totalCursos;
+					$porcentaje_doble = ($doble * 100) / $totalReservaciones;
 
-					$porcentaje_productividad = ($productividad * 100) / $totalCursos;
+					$porcentaje_duplex = ($duplex * 100) / $totalReservaciones;
 
 				?>
 
 				<ul class="easypiecharts list-unstyled">
 					<li class="clearfix">
-						<span class="stat-number">{{ $negocios }}</span>
-						<span class="stat-title"><strong>Negocios</strong></span>
+						<span class="stat-number">{{ $matrimonial }}</span>
+						<span class="stat-title"><strong>Matrimonial</strong></span>
 
-						<span class="easyPieChart" data-percent="{{ $porcentaje_negocios }}" data-easing="easeOutBounce" data-barColor="#35459C" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+						<span class="easyPieChart" data-percent="{{ $porcentaje_matrimonial }}" data-easing="easeOutBounce" data-barColor="#35459C" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 							<span class="percent"></span>
 						</span> 
 					</li>
 					<li class="clearfix">
-						<span class="stat-number">{{ $tecnologia }}</span>
-						<span class="stat-title"><strong>Tecnología</strong></span>
+						<span class="stat-number">{{ $matrimonialSofa }}</span>
+						<span class="stat-title"><strong>Matrimonial + Sofá</strong></span>
 
-						<span class="easyPieChart" data-percent="{{ $porcentaje_tecnologia }}" data-easing="easeOutBounce" data-barColor="#F47741" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+						<span class="easyPieChart" data-percent="{{ $porcentaje_matrimonialSofa }}" data-easing="easeOutBounce" data-barColor="#F47741" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 							<span class="percent"></span>
 						</span> 
 					</li>
 					<li class="clearfix">
-						<span class="stat-number">{{ $desarrollo }}</span>
-						<span class="stat-title"><strong>Desarrollo</strong></span>
+						<span class="stat-number">{{ $doble }}</span>
+						<span class="stat-title"><strong>Doble</strong></span>
 
-						<span class="easyPieChart" data-percent="{{ $porcentaje_desarrollo }}" data-easing="easeOutBounce" data-barColor="#41B649" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+						<span class="easyPieChart" data-percent="{{ $porcentaje_doble }}" data-easing="easeOutBounce" data-barColor="#41B649" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 							<span class="percent"></span>
 						</span> 
 					</li>
 					<li class="clearfix">
-						<span class="stat-number">{{ $productividad }}</span>
-						<span class="stat-title"><strong>Productividad</strong></span>
+						<span class="stat-number">{{ $duplex }}</span>
+						<span class="stat-title"><strong>Duplex</strong></span>
 
-						<span class="easyPieChart" data-percent="{{ $porcentaje_productividad }}" data-easing="easeOutBounce" data-barColor="#7952A1" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+						<span class="easyPieChart" data-percent="{{ $porcentaje_duplex }}" data-easing="easeOutBounce" data-barColor="#7952A1" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 							<span class="percent"></span>
 						</span> 
 					</li>
@@ -115,7 +115,7 @@
 				<div class="box danger"><!-- default, danger, warning, info, success -->
 
 					<div class="box-title"><!-- add .noborder class if box-body is removed -->
-						<h4><a href="#">{!! $totalCursos !!} Cursos</a></h4>
+						<h4><a href="#">{!! $totalReservaciones !!} Reservaciones</a></h4>
 						<!--<small class="block">654 New fedbacks today</small>-->
 						<i class="fa fa fa-book"></i>
 					</div>
@@ -138,7 +138,7 @@
 				<div class="box warning"><!-- default, danger, warning, info, success -->
 
 					<div class="box-title"><!-- add .noborder class if box-body is removed -->
-						<h4>{!! $totalInstructores !!}  Instructores</h4>
+						<h4>{!! $totalReservaciones !!}  Reservaciones</h4>
 						<!--<small class="block">1,2 M Profit for this month</small>-->
 						<i class="fa fa-graduation-cap"></i>
 					</div>
@@ -179,7 +179,7 @@
 				<div id="panel-3" class="panel panel-default">
 					<div class="panel-heading">
 						<span class="title elipsis">
-							<strong>CURSOS RECIENTES</strong> <!-- panel title -->
+							<strong>CLIENTES</strong> <!-- panel title -->
 						</span>
 					</div>
 
@@ -188,14 +188,29 @@
 
 						<ul class="list-unstyled list-hover slimscroll height-300" data-slimscroll-visible="true">
 							
-						@foreach ($cursos as $curso) 
+						@foreach ($clientes as $cliente) 
 							
-							<li>
-								
-								<span class="label" style="background-color: {{ $curso->str_color }}">{{ $curso->str_categoria }}</span>
+                            @if ($cliente->blb_img != "")
+								<li>									
+									<img src="data:image/jpeg;base64,{{ $cliente->blb_img }}" alt="{!! $cliente->name !!}" title="{!! $cliente->name !!}" height="34">
 
-								{!! str_replace("-"," ",$curso->str_curso) !!}
-							</li>
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }} 
+								</li>
+							@else
+
+							  @if ($cliente->str_genero == 'Masculino')
+							  	<li>
+									<img src="{{ asset('smarty/assets/images/user_masculino.png') }}" alt="" height="34">
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }}				  	
+								</li>
+							  @elseif ($cliente->str_genero == 'Femenino')
+								<li>
+									<img src="{{ asset('smarty/assets/images/user_femenino.png') }}" alt="" height="34">
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }}
+								</li>
+							  @endif
+
+							 @endif	
 
 						@endforeach
 						</ul>
@@ -226,7 +241,7 @@
 				<div id="panel-3" class="panel panel-default">
 					<div class="panel-heading">
 						<span class="title elipsis">
-							<strong>NUEVOS INSTRUCTORES</strong> <!-- panel title -->
+							<strong>CLIENTES</strong> <!-- panel title -->
 						</span>
 					</div>
 
@@ -235,14 +250,29 @@
 
 						<ul class="list-unstyled list-hover slimscroll height-300" data-slimscroll-visible="true">
 
-						@foreach ($instructores as $instructor) 
+						@foreach ($clientes as $cliente) 
 							
-							<li>
-								
-								<img src="data:image/jpeg;base64,{{ $instructor->blb_img }}" alt="{!! $instructor->str_nombre !!}" title="{!! $instructor->str_nombre !!}" height="34">
+                            @if ($cliente->blb_img != "")
+								<li>									
+									<img src="data:image/jpeg;base64,{{ $cliente->blb_img }}" alt="{!! $cliente->name !!}" title="{!! $cliente->name !!}" height="34">
 
-								<b>{{ $instructor->str_nombre }}</b> : {{ $instructor->str_profesion }} 
-							</li>
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }} 
+								</li>
+							@else
+
+							  @if ($cliente->str_genero == 'Masculino')
+							  	<li>
+									<img src="{{ asset('smarty/assets/images/user_masculino.png') }}" alt="" height="34">
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }}				  	
+								</li>
+							  @elseif ($cliente->str_genero == 'Femenino')
+								<li>
+									<img src="{{ asset('smarty/assets/images/user_femenino.png') }}" alt="" height="34">
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }}
+								</li>
+							  @endif
+
+							 @endif	
 
 						@endforeach
 
