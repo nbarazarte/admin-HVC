@@ -61,7 +61,7 @@
 
 								<div class="panel-body">
 
-									{!! Form::open(['route' => 'registrarCli', 'id' => 'demo-form', '', 'enctype'=>'multipart/form-data', 'class' => 'sky-form boxed validate', 'data-success' => 'Se ha creado el Cliente con éxito','data-toastr-position' => 'top-right']) !!} 										
+									{!! Form::open(['route' => 'registrarCli', 'id' => 'demo-form', '', 'enctype'=>'multipart/form-data', 'class' => 'sky-form boxed ', 'data-success' => 'Se ha creado el Cliente con éxito','data-toastr-position' => 'top-right']) !!} 										
 <!-- validate -->
 											<fieldset>
 												
@@ -137,12 +137,12 @@
 
 															<label>País *</label>
 	
-															<select name="str_pais" class="form-control pointer required">
+															<select name="lng_idpais" class="form-control pointer required">
 																<option value="">--- Seleccione ---</option>
 
-																	@foreach ($paises as $value)
+																	@foreach ($paises as $pais)
 																				
-																		<option value="{{ $value }}">{{$value}}</option>
+																		<option value="{{ $pais->id }}">{{$pais->str_paises}}</option>
 
 																	@endforeach
 

@@ -1,7 +1,7 @@
 <li>
 	<a href="#">
 		<i class="fa fa-menu-arrow pull-right"></i>
-		<i class="main-icon fa fa-rss"></i> <span>Reservaciones</span>
+		<i class="fa fa-bed" aria-hidden="true"></i> <span>Reservaciones</span>
 	</a>
 	<ul><!-- submenus -->
 
@@ -27,7 +27,6 @@
 				Reservación
 			</a>
 			<ul>
-				<li><a href="{{ route('registrarReservacion')}}">Crear Reservación</a></li>
 				<li><a href="{{ route('buscarReservacion')}}">Buscar Reservación</a></li>
 			</ul>
 		</li>

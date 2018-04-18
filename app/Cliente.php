@@ -21,7 +21,7 @@ class Cliente extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'password', 'email', 'str_ci_pasaporte','blb_img','str_pais','str_genero','str_telefono'];
+    protected $fillable = ['name', 'password', 'email', 'str_ci_pasaporte','blb_img','lng_idpais','str_genero','str_telefono'];
 
     /**
      * The attributes excluded from the model's JSON form.

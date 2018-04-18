@@ -15,10 +15,10 @@
 
 				<!-- page title -->
 				<header id="page-header">
-					<h1>Buscar Posts de iLernus</h1>
+					<h1>Buscar Reservaciones</h1>
 					<ol class="breadcrumb">
 					 <li><a href="{{ route('home')}}">Dashboard</a></li>
-					  <li class="active">Buscar Posts de iLernus</li>
+					  <li class="active">Buscar Reservaciones</li>
 					</ol>
 
 
@@ -44,7 +44,7 @@
 					<div id="panel-1" class="panel panel-default">
 						<div class="panel-heading">
 							<span class="title elipsis">
-								<strong>LISTADO DE posts DE ILERNUS</strong> <!-- panel title -->
+								<strong>LISTADO DE RESERVACIONES </strong> <!-- panel title -->
 							</span>
 
 							<!-- right options -->
@@ -64,25 +64,27 @@
 								<thead>
 									<tr>
 										<th>Ver</th>
-										<th>Imágen</th>
-										<th>Título</th>
-										<th>Tipo</th>
-										<th>Autor</th>
-										<th>Fecha</th>
-										<th>Estatus</th>
-										<th>Usuario</th>
+										<th>Cliente</th>
+										<th>CI/Pasaporte</th>
+										<th>País</th>
+										<th>Habitación</th>
+										<th>Entrada</th>
+										<th>Salida</th>
+										<th>Días</th>
+										<th>Reservación</th>
+										<th>Pago</th>
 									</tr>
 								</thead>
 
 								<tbody>
 
-									@foreach ($posts as $post)
+									@foreach ($reservaciones as $reservacion)
 
 										<tr class="odd gradeX">
 
 												<td>
 
-													<a href="{{ route('verPost',[$post->idpost]) }}" type="button" class="btn btn-warning">
+													<a href="{{ route('verReservacion',[$reservacion->id]) }}" type="button" class="btn btn-warning">
 														
 														<i class="fa fa-search" aria-hidden="true"></i>
 
@@ -91,86 +93,66 @@
 												</td>
 
 												<td>
-
-													  @if (( $post->str_tipo == 'imagen') || ($post->str_tipo == 'carrusel-imagen' ))
-													  	<center>
-														  	<figure class="margin-bottom-10"><!-- image -->
-													  			<img src="data:image/jpeg;base64,{{ $post->blb_img1 }}" alt="" title="" height="34">
-													  		</figure>
-													  	</center>					  	
-													  @elseif ($post->str_tipo == 'audio')
-													  	<center>
-														  	<figure class="margin-bottom-10"><!-- image -->
-													  			<i class="fa fa-soundcloud" aria-hidden="true"></i>
-													  		</figure>
-													  	</center>
-													  @elseif ($post->str_tipo == 'video')
-														<div class="margin-bottom-20">
-															<div class="embed-responsive embed-responsive-16by9">
-																{!! html_entity_decode($post->str_video) !!}
-															</div>
-														</div>	
-													  @elseif ($post->str_tipo == 'simple')
-													  	<center>
-														  	<figure class="margin-bottom-10"><!-- image -->
-													  			<i class="fa fa-newspaper-o" aria-hidden="true"></i>
-													  		</figure>
-													  	</center>
-													  @endif
-
-
-
-
-
-
-												</td>												
-
-												<td>
-													 	{{ str_replace("-"," ",$post->str_titulo) }}
+														{{ ucfirst($reservacion->str_nombre) }}
 												</td>
 
 												<td>
+														{{ $reservacion->str_ci_pasaporte }}
+												</td>
 
-														{{ ucfirst($post->str_tipo) }}
+												<td style="font-size: 10px">
 
+													  	<center>
+														  	<figure class="margin-bottom-10"><!-- image -->						                            
+						                            			<img src="data:image/jpeg;base64,{{ $reservacion->bandera }}" alt="{!! $reservacion->str_paises !!}" title="{!! $reservacion->str_paises !!}" height="24">
+						                            		</figure>
+						                            	</center>	
+
+														{{ $reservacion->str_paises }}
 												</td>
 
 												<td>
+													 	{{ ucfirst($reservacion->str_habitacion) }}
+												</td>
 
-														<div class="row">
-															<div class="col-md-4">
-															  	<center>
-																  	<figure class="margin-bottom-10"><!-- image -->
-																		<img src="data:image/jpeg;base64,{{ $post->blb_img }}" alt="" title="" height="34">
-																	</figure>
-																</center>
-															</div>
-															<div class="col-md-8">{{ $post->autor }}</div>
-														</div>
+												<td>
+													<?php
 
+			                                            $date1 = new DateTime($reservacion->dmt_fecha_entrada);
+			                                            $fecha_entrada = $date1->format('d-m-Y');
+			                                        ?>
+														{{ $fecha_entrada }}
+												</td>
 
-													 	
+												<td>
+													<?php
+
+			                                            $date2 = new DateTime($reservacion->dmt_fecha_salida);
+			                                            $fecha_salida = $date2->format('d-m-Y');
+			                                        ?>
+														{{ $fecha_salida }}
 												</td>											
 
 												<td>
-													 	{{ $post->fecha }}
+													 {{ $reservacion->int_dias }}
 												</td>
 
 												<td> 
-														{{ $post->str_estatus }}
+													{{ $reservacion->str_tipo_reserva }}
+
 												</td>
 												
-												<td> 
-														<div class="row">
-															<div class="col-md-4">
-															  	<center>
-																  	<figure class="margin-bottom-10"><!-- image -->
-																		<img src="data:image/jpeg;base64,{{ $post->img_usuario }}" alt="" title="" height="34">
-																	</figure>
-																</center>
-															</div>
-															<div class="col-md-8">{{ $post->usuario }}</div>
-														</div>
+												<td>
+
+													@if($reservacion->str_estatus_pago == null)
+
+														<span class="label label-warning">Pendiente</span>
+													
+													@else
+
+														<span class="label label-success">{{ $reservacion->str_estatus_pago }}</span>
+
+													@endif
 
 												</td>
 

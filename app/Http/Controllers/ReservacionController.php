@@ -232,7 +232,7 @@ class ReservacionController extends Controller
 
         //return redirect($this->redirectPath()); 
         Session::flash('message','¡La reservación ha sido creada con éxito!');
-        return Redirect::to('/Buscar-Clientes'); 
+        return Redirect::to('/Buscar-Reservación'); 
         
     }
 
@@ -286,7 +286,8 @@ class ReservacionController extends Controller
             'int_adultos' => $data['contact-adultos'],
             'int_dias' => $data['cant-dias'],
             'str_mensaje' => $data['contact-message'],
-            'dbl_total_pagar' => $data['contact-totalPagar'],  
+            'dbl_total_pagar' => $data['contact-totalPagar'],
+            'str_tipo_reserva' => 'Hotel', 
 
         ]);
   
@@ -313,19 +314,17 @@ class ReservacionController extends Controller
     public function buscarReservacion()
     {
 
-        $reservaciones = DB::table('tbl_reservaciones as p')
-                ->join('tbl_autores as au', 'au.id', '=', 'p.lng_idautor')
-                ->join('tbl_admin as adm', 'adm.id', '=', 'p.lng_idadmin')
-                ->where('p.bol_eliminado', '=' ,0)
-                ->select('p.id as idReservacion','p.str_estatus','adm.name as usuario','adm.blb_img as img_usuario','p.str_titulo', 'p.str_Reservacion', 'p.str_Reservacion_resumen', 'p.str_tipo', 'p.str_video','p.str_audio', 'p.blb_img1', 'p.blb_img2', 'p.blb_img3', 'p.created_at as fecha', 'au.id', 'au.str_nombre as autor', 'au.str_genero', 'au.str_profesion', 'au.str_cv', 'au.blb_img')
-                ->orderBy('p.id','asc')
+        $reservaciones = DB::table('tbl_reservaciones as r')
+                ->join('users as u', 'u.id', '=', 'r.lng_idpersona')
+                ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
+                ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
+                ->select('r.*', 'u.*','h.*','p.blb_img as bandera','p.str_paises')
+                ->orderBy('r.dmt_fecha_entrada','asc')
                 ->get();
 
-
-
-            //dd($Reservacions);die();
+            //dd($reservacions);die();
         
-        return \View::make('reservacion.buscarReservacion', compact('reservacions'));
+        return \View::make('reservaciones.buscarReservacion', compact('reservaciones'));
     }
 
     /**

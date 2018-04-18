@@ -192,7 +192,7 @@
 													<div class="form-group">
 														<label class="col-md-3 control-label" for="">País</label>
 														<div class="col-md-8">
-															<input type="text" readonly="yes" class="form-control" id="" value="{{ $cliente->str_pais }}">
+															<input type="text" readonly="yes" class="form-control" id="" value="{{ $cliente->str_paises }}">
 														</div>
 													</div>
 
@@ -256,12 +256,12 @@
 													<div class="form-group">
 														<label class="col-md-3 control-label" for="name">País</label>
 														<div class="col-md-8">
-															<select name="str_pais" class="form-control pointer required">
+															<select name="lng_idpais" class="form-control pointer required">
 																<option value="">--- Seleccione ---</option>
 
-																@foreach ($paises as $value)
+																@foreach ($paises as $pais)
 																				
-																<option value="{{$value}}" <?php if ($value == $cliente->str_pais) {?> selected <?php }?> >{{$value}}</option>
+																<option value="{{$pais->id}}" <?php if ($pais->id == $cliente->lng_idpais) {?> selected <?php }?> >{{$pais->str_paises}}</option>
 
 																@endforeach
 
@@ -482,10 +482,10 @@
 															<input type="hidden" id="contact-llegada" name="contact-llegada" value="">
 															<input type="hidden" id="contact-salida" name="contact-salida" value="">
 
-								<input type="hidden" id="contact-name" name="contact-name" value="{{ $cliente->name }}">
-								<input type="hidden" id="contact-email" name="contact-email" value="{{ $cliente->email }}">
-								<input type="hidden" id="contact-phone" name="contact-phone" value="{{ $cliente->str_telefono }}">
-								<input type="hidden" id="contact-id" name="contact-id" value="{{ $cliente->id }}">
+															<input type="hidden" id="contact-name" name="contact-name" value="{{ $cliente->name }}">
+															<input type="hidden" id="contact-email" name="contact-email" value="{{ $cliente->email }}">
+															<input type="hidden" id="contact-phone" name="contact-phone" value="{{ $cliente->str_telefono }}">
+															<input type="hidden" id="contact-id" name="contact-id" value="{{ $cliente->id }}">
 
 														
 															{!! Form::submit('BUSCAR DISPONIBILIDAD', ['class' => 'btn btn-3d btn-teal btn-xlg btn-block margin-top-30']) !!}																								

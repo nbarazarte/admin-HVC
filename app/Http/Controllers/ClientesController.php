@@ -46,10 +46,12 @@ class ClientesController extends Controller
         })
         ->lists('str_descripcion');
 
-        $paises = DB::table('paises')
-        ->lists('str_paises');           
+        $paises = DB::table('cat_paises')
+        ->select('id','str_paises')
+        ->orderBy('str_paises')
+        ->get();           
 
-        //dd($gerencias);die(); 
+        //dd($paises);die(); 
 
         return \View::make('clientes.crearCuenta', compact('generos','paises'));
     }
@@ -75,7 +77,7 @@ class ClientesController extends Controller
 
         //return redirect($this->redirectPath()); 
         Session::flash('message','¡El cliente ha sido creado con éxito!');
-        return Redirect::to('/Crear-Cliente'); 
+        return Redirect::to('/Buscar-Clientes'); 
         
     }
 
@@ -92,7 +94,7 @@ class ClientesController extends Controller
             'name' => 'required|max:255',
             'str_ci_pasaporte' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
-            'str_pais' => 'required|max:255',
+            'lng_idpais' => 'required|max:255',
             'str_genero' => 'required|max:255',
             'str_telefono' => 'required|max:255',  
 
@@ -116,7 +118,7 @@ class ClientesController extends Controller
                 'email' => $data['email'],
                 'str_telefono' => $data['str_telefono'],
                 'str_ci_pasaporte' => $data['str_ci_pasaporte'],
-                'str_pais' => $data['str_pais'],
+                'lng_idpais' => $data['lng_idpais'],
                 'str_genero' => $data['str_genero'],
                 'blb_img' => $data['blb_img'],
                 //'blb_img' => base64_encode(file_get_contents($data['blb_img'])),
@@ -130,7 +132,7 @@ class ClientesController extends Controller
                 'email' => $data['email'],
                 'str_telefono' => $data['str_telefono'],
                 'str_ci_pasaporte' => $data['str_ci_pasaporte'],
-                'str_pais' => $data['str_pais'],
+                'lng_idpais' => $data['lng_idpais'],
                 'str_genero' => $data['str_genero'],                
             ]);            
         }
@@ -144,9 +146,10 @@ class ClientesController extends Controller
     public function buscarCuenta()
     {
 
-        $clientes = DB::table('users')
-                ->select('id','name','email','str_ci_pasaporte','blb_img','str_genero','str_pais')
-                ->where('bol_eliminado', '=' ,0)                
+        $clientes = DB::table('users as u')
+                ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
+                ->select('u.id','name','email','str_ci_pasaporte','u.blb_img','str_genero','lng_idpais','p.str_paises')
+                ->where('u.bol_eliminado', '=' ,0)                
                 ->orderBy('name','asc')
                 ->get();
 
@@ -171,8 +174,11 @@ class ClientesController extends Controller
     public function verCuenta($id)
     {
     
-        $clientes = DB::table('users')
-        ->where('id', $id)
+        $clientes = DB::table('users as u')
+        ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
+  
+        ->select('u.id','name','email','str_ci_pasaporte','u.blb_img','str_genero','str_telefono','u.lng_idpais','p.str_paises')
+        ->where('u.id', $id)
 
         ->get();
 
@@ -183,12 +189,12 @@ class ClientesController extends Controller
         })
         ->lists('str_descripcion');
 
-        $paises = DB::table('paises')
-        ->lists('str_paises');        
+        $paises = DB::table('cat_paises')
+        ->select('id','str_paises')
+        ->get();
 
         $habitaciones = DB::table('cat_habitaciones') ->lists('str_habitacion');  
               
-
         //dd($generos);die();
         return \View::make('clientes.cuenta', compact('clientes','generos','paises','habitaciones'));
     }
@@ -203,10 +209,10 @@ class ClientesController extends Controller
                 $request, $validator
             );
         }*/
-
-        $autor = Cliente::find($request->id);
-        $autor->fill($request->all());
-        $autor->save();
+        //dd($request->all());die();
+        $cliente = Cliente::find($request->id);
+        $cliente->fill($request->all());
+        $cliente->save();
 
         Session::flash('message','¡Se han editado los datos del cliente con éxito!');
         return Redirect::to('/Ver-Cliente-'.$request->id); 
@@ -216,9 +222,9 @@ class ClientesController extends Controller
     public function editarImagen(Request $request)
     {
         
-        $autor = Cliente::find($request->id);
-        $autor->fill($request->all());
-        $autor->save();
+        $cliente = Cliente::find($request->id);
+        $cliente->fill($request->all());
+        $cliente->save();
 
         Session::flash('message','¡Se ha cambiado la imágen de perfil con éxito!');
         return Redirect::to('/Ver-Cliente-'.$request->id); 

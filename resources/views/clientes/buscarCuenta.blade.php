@@ -129,7 +129,7 @@
 												</td>											
 
 												<td>
-													 	{{ $cliente->str_pais }}
+													 	{{ $cliente->str_paises }}
 												</td>
 
 										</tr>
