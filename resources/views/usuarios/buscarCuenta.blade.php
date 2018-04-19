@@ -69,7 +69,7 @@
 						<div class="panel-body">
 
 							<table class="table table-striped table-bordered table-hover" id="datatable_sample">
-								<thead>
+								<thead style="text-align: center;">
 									<tr>
 										<th>Ver</th>
 										<th>Imágen</th>
@@ -85,7 +85,7 @@
 									</tr>
 								</thead>
 
-								<tbody>
+								<tbody style="font-size: 12px; text-align: center; cursor: pointer;">
 
 									@foreach ($usuarios as $usuario)
 

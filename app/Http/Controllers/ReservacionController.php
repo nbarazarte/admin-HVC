@@ -318,7 +318,7 @@ class ReservacionController extends Controller
                 ->join('users as u', 'u.id', '=', 'r.lng_idpersona')
                 ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
                 ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
-                ->select('r.*', 'u.*','h.*','p.blb_img as bandera','p.str_paises')
+                ->select('r.*', 'r.id as idreservacion','u.*','h.*','p.blb_img as bandera','p.str_paises')
                 ->orderBy('r.dmt_fecha_entrada','asc')
                 ->get();
 
@@ -343,56 +343,18 @@ class ReservacionController extends Controller
     public function verReservacion($id)
     {
     
-        $reservaciones = DB::table('tbl_Reservacion as p')
-        ->join('tbl_autores as a', 'p.lng_idautor', '=', 'a.id')
-        ->where('p.id', '=', $id)
-        ->Where(function ($query) {
-            $query->where('p.bol_eliminado', '=', 0);
-        })
+        $reservaciones = DB::table('tbl_reservaciones as r')
+            ->join('users as u', 'u.id', '=', 'r.lng_idpersona')
+            ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
+            ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
+            ->where('r.id', '=', $id)
+            ->select('r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
+            ->orderBy('r.dmt_fecha_entrada','asc')
+            ->get();                   
 
-        ->select( 'p.id as idReservacion','p.str_estatus','p.str_tipo', 'p.created_at as fecha','p.str_titulo', 'p.str_Reservacion', 'p.str_Reservacion_resumen','p.str_video', 'p.str_audio', 'p.blb_img1', 'p.blb_img2', 'p.blb_img3', 'a.str_nombre as autor')
+        //dd($reservaciones);
 
-        ->orderBy('p.id', 'desc')
-        ->get(); 
-              
-        $autores = DB::table('tbl_autores')
-            ->orderBy('str_nombre', 'asc')
-            ->where('bol_eliminado', '=', 0)
-            ->select('str_nombre','id')
-            ->lists('str_nombre','id');
-
-        $tipoReservacion = DB::table('cat_datos_maestros')
-            ->where('str_tipo', 'Reservacion')
-            ->where('bol_eliminado', '=', 0)
-            ->orderBy('id', 'asc')
-            ->lists('str_descripcion');
-
-        $tipoEstatus = DB::table('cat_datos_maestros')
-            ->where('str_tipo', 'estatus_Reservacion')
-            ->where('bol_eliminado', '=', 0)
-            ->orderBy('id', 'asc')
-            ->lists('str_descripcion');
-
-
-        $todasEtiquetas = DB::table('cat_datos_maestros')
-            ->where('str_tipo', '=' ,'etiqueta')
-            ->Where(function ($query) {
-                $query->where('bol_eliminado', '=', 0);
-            })              
-            ->orderBy('str_descripcion')
-            ->select('str_descripcion','id')
-            ->lists('str_descripcion','id');
-
-
-        $etiquetas = DB::table('tbl_categorias_Reservacion as cat')
-        ->where('cat.lng_idReservacion', '=', $id)
-        ->orderBy('str_categoria')
-        ->select('str_categoria')
-        ->lists('str_categoria');          
-
-        //dd($todasEtiquetas);
-
-        return \View::make('reservaciones.Reservacion', compact('reservaciones','categorias','autores','tipoReservacion','todasEtiquetas','etiquetas','tipoEstatus'));
+        return \View::make('reservaciones.reservacion', compact('reservaciones'));
     }
 
     public function editarReservacion(Request $request)

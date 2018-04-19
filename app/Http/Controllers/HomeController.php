@@ -27,13 +27,14 @@ class HomeController extends Controller
         
         $totalReservaciones = DB::table('tbl_reservaciones')->count();
 
-        $totalReservaciones = DB::table('tbl_reservaciones')->count();
-
-        $clientes = DB::table('users')->get();
+        $clientes = DB::table('users as u')
+                ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
+                ->select('u.id','name','email','str_ci_pasaporte','u.blb_img','str_genero','lng_idpais','p.str_paises')
+                ->where('u.bol_eliminado', '=' ,0)                
+                ->orderBy('name','asc')
+                ->get();
 
         $reservaciones = DB::table('tbl_reservaciones')->get();
-
-
 
         $matrimonial = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
 
@@ -43,7 +44,7 @@ class HomeController extends Controller
 
         $duplex = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
 
-        return \View::make('index', compact('totalReservaciones','totalInstructores','clientes','reservaciones','matrimonial','matrimonialSofa','doble','duplex'));
+        return \View::make('index', compact('totalReservaciones','clientes','reservaciones','matrimonial','matrimonialSofa','doble','duplex'));
     }
 
     /**

@@ -61,7 +61,7 @@
 						<div class="panel-body">
 
 							<table class="table table-striped table-bordered table-hover" id="datatable_sample">
-								<thead>
+								<thead style="text-align: center;">
 									<tr>
 										<th>Ver</th>
 										<th>Imágen</th>
@@ -72,7 +72,7 @@
 									</tr>
 								</thead>
 
-								<tbody>
+								<tbody style="font-size: 12px; text-align: center; cursor: pointer;">
 
 									@foreach ($clientes as $cliente)
 
@@ -129,7 +129,13 @@
 												</td>											
 
 												<td>
-													 	{{ $cliente->str_paises }}
+												  	<center>
+													  	<figure class="margin-bottom-10"><!-- image -->						                            
+					                            			<img src="data:image/jpeg;base64,{{ $cliente->bandera }}" alt="{!! $cliente->str_paises !!}" title="{!! $cliente->str_paises !!}" height="24" width="40">
+					                            		</figure>
+					                            	</center>	
+
+													{{ $cliente->str_paises }}
 												</td>
 
 										</tr>

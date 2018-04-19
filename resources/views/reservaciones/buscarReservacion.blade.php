@@ -61,7 +61,7 @@
 						<div class="panel-body">
 
 							<table class="table table-striped table-bordered table-hover" id="datatable_sample">
-								<thead>
+								<thead style="text-align: center;">
 									<tr>
 										<th>Ver</th>
 										<th>Cliente</th>
@@ -76,7 +76,7 @@
 									</tr>
 								</thead>
 
-								<tbody>
+								<tbody style="font-size: 12px; text-align: center; cursor: pointer;">
 
 									@foreach ($reservaciones as $reservacion)
 
@@ -84,7 +84,7 @@
 
 												<td>
 
-													<a href="{{ route('verReservacion',[$reservacion->id]) }}" type="button" class="btn btn-warning">
+													<a href="{{ route('verReservacion',[$reservacion->idreservacion]) }}" type="button" class="btn btn-warning">
 														
 														<i class="fa fa-search" aria-hidden="true"></i>
 
@@ -100,15 +100,15 @@
 														{{ $reservacion->str_ci_pasaporte }}
 												</td>
 
-												<td style="font-size: 10px">
+												<td>
 
-													  	<center>
-														  	<figure class="margin-bottom-10"><!-- image -->						                            
-						                            			<img src="data:image/jpeg;base64,{{ $reservacion->bandera }}" alt="{!! $reservacion->str_paises !!}" title="{!! $reservacion->str_paises !!}" height="24">
-						                            		</figure>
-						                            	</center>	
+												  	<center>
+													  	<figure class="margin-bottom-10"><!-- image -->						                            
+					                            			<img src="data:image/jpeg;base64,{{ $reservacion->bandera }}" alt="{!! $reservacion->str_paises !!}" title="{!! $reservacion->str_paises !!}" height="24" width="40">
+					                            		</figure>
+					                            	</center>	
 
-														{{ $reservacion->str_paises }}
+													{{ $reservacion->str_paises }}
 												</td>
 
 												<td>

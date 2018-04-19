@@ -148,7 +148,7 @@ class ClientesController extends Controller
 
         $clientes = DB::table('users as u')
                 ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
-                ->select('u.id','name','email','str_ci_pasaporte','u.blb_img','str_genero','lng_idpais','p.str_paises')
+                ->select('u.id','name','email','str_ci_pasaporte','u.blb_img','str_genero','lng_idpais','p.str_paises','p.blb_img as bandera')
                 ->where('u.bol_eliminado', '=' ,0)                
                 ->orderBy('name','asc')
                 ->get();

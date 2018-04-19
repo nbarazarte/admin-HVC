@@ -194,19 +194,19 @@
 								<li>									
 									<img src="data:image/jpeg;base64,{{ $cliente->blb_img }}" alt="{!! $cliente->name !!}" title="{!! $cliente->name !!}" height="34">
 
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }} 
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }} 
 								</li>
 							@else
 
 							  @if ($cliente->str_genero == 'Masculino')
 							  	<li>
 									<img src="{{ asset('smarty/assets/images/user_masculino.png') }}" alt="" height="34">
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }}				  	
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }}				  	
 								</li>
 							  @elseif ($cliente->str_genero == 'Femenino')
 								<li>
 									<img src="{{ asset('smarty/assets/images/user_femenino.png') }}" alt="" height="34">
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }}
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }}
 								</li>
 							  @endif
 
@@ -256,19 +256,19 @@
 								<li>									
 									<img src="data:image/jpeg;base64,{{ $cliente->blb_img }}" alt="{!! $cliente->name !!}" title="{!! $cliente->name !!}" height="34">
 
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }} 
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }} 
 								</li>
 							@else
 
 							  @if ($cliente->str_genero == 'Masculino')
 							  	<li>
 									<img src="{{ asset('smarty/assets/images/user_masculino.png') }}" alt="" height="34">
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }}				  	
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }}				  	
 								</li>
 							  @elseif ($cliente->str_genero == 'Femenino')
 								<li>
 									<img src="{{ asset('smarty/assets/images/user_femenino.png') }}" alt="" height="34">
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_pais }}
+									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }}
 								</li>
 							  @endif
 
