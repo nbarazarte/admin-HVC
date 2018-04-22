@@ -152,43 +152,12 @@ Route::group(['middleware' => 'auth'], function () {
 						'as' =>'verReservacion'
 		]);
 
-
-		//Editar Reservación:
-		Route::post('Editar-Reservación', [
-						'uses' => 'ReservacionController@editarReservacion',
-						'as' =>'editarReservacion'
+		//Imprimir Reservación:
+		Route::get('Imprimir-Reservación-{id}', [
+						'uses' => 'ReservacionController@imprimirReservacion',
+						'as' =>'imprimirReservacion'
 		]);
-
-
-		//Editar Post multimedia: simple
-		Route::post('Editar-Reservación-Multimedia4', [
-						'uses' => 'ReservacionController@editarMultimedia4',
-						'as' =>'editarMu4'
-		]);
-
-		//Editar Post multimedia: una imagen
-		Route::post('Editar-Reservación-Multimedia', [
-						'uses' => 'ReservacionController@editarMultimedia',
-						'as' =>'editarMu'
-		]);
-
-		//Editar Post multimedia: carrusel
-		Route::post('Editar-Reservación-Multimedia2', [
-						'uses' => 'ReservacionController@editarMultimedia2',
-						'as' =>'editarMu2'
-		]);
-
-		//Editar Post multimedia: audio y video
-		Route::post('Editar-Reservación-Multimedia3', [
-						'uses' => 'ReservacionController@editarMultimedia3',
-						'as' =>'editarMu3'
-		]);
-
-		//Editar Post Etiquetas:
-		Route::post('Editar-Reservación-Etiquetas', [
-						'uses' => 'ReservacionController@editarEtiquetas',
-						'as' =>'editarEtiquetas'
-		]);
+		
 
 		//Eliminar Post
 		Route::post('Eliminar-Reservación', [

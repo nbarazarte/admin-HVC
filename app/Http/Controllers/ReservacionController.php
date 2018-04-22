@@ -348,13 +348,48 @@ class ReservacionController extends Controller
             ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
             ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
             ->where('r.id', '=', $id)
-            ->select('r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
+            ->select('r.id as idreservacion','r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
             ->orderBy('r.dmt_fecha_entrada','asc')
-            ->get();                   
+            ->get();  
 
-        //dd($reservaciones);
+        $acompanantes = DB::table('tbl_acompanante as a')
+            ->join('cat_paises as p', 'p.id', '=', 'a.lng_idpais')
+            ->join('cat_datos_maestros as dm', 'dm.id', '=', 'a.lng_idtipopersona')
+            ->where('a.lng_idReservacion', '=', $id)
+            ->select('a.str_nombre','a.str_ci_pasaporte','dm.str_descripcion as tipopersona','p.blb_img as bandera','p.str_paises')
+            ->orderBy('a.str_nombre','asc')
+            ->get(); 
 
-        return \View::make('reservaciones.reservacion', compact('reservaciones'));
+        //dd($acompanantes);
+
+        return \View::make('reservaciones.reservacion', compact('reservaciones','acompanantes'));
+    }
+
+
+
+        public function imprimirReservacion($id)
+    {
+    
+        $reservaciones = DB::table('tbl_reservaciones as r')
+            ->join('users as u', 'u.id', '=', 'r.lng_idpersona')
+            ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
+            ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
+            ->where('r.id', '=', $id)
+            ->select('r.id as idreservacion','r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
+            ->orderBy('r.dmt_fecha_entrada','asc')
+            ->get();  
+
+        $acompanantes = DB::table('tbl_acompanante as a')
+            ->join('cat_paises as p', 'p.id', '=', 'a.lng_idpais')
+            ->join('cat_datos_maestros as dm', 'dm.id', '=', 'a.lng_idtipopersona')
+            ->where('a.lng_idReservacion', '=', $id)
+            ->select('a.str_nombre','a.str_ci_pasaporte','dm.str_descripcion as tipopersona','p.blb_img as bandera','p.str_paises')
+            ->orderBy('a.str_nombre','asc')
+            ->get(); 
+
+        //dd($acompanantes);
+
+        return \View::make('reservaciones.imprimirReservacion', compact('reservaciones','acompanantes'));
     }
 
     public function editarReservacion(Request $request)
