@@ -197,9 +197,7 @@
 							@foreach ($reservacionesPaises as $res) 
 
 								<li>									
-									<img src="data:image/jpeg;base64,{{ $res->blb_img }}" alt="{!! $res->str_paises !!}" title="{!! $res->str_paises !!}" height="34">
-
-									<b>{{ $res->total }}</b> : {{ $res->str_paises }} 
+									<img src="data:image/jpeg;base64,{{ $res->blb_img }}" alt="{!! $res->str_paises !!}" title="{!! $res->str_paises !!}" height="34"> {{ $res->str_paises }} : <b>{{ $res->total }}</b> 
 								</li>
 			
 							@endforeach
