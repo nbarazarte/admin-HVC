@@ -26,6 +26,8 @@
 					<h1>Crear Reservación</h1>
 					<ol class="breadcrumb">
 						<li><a href="{{ route('home')}}">Dashboard</a></li>
+						<li><a href="{{ route('buscarCuentaCli')}}">Buscar Clientes</a></li>
+						<li><a href="{{ route('cuentaCli', $persona['contact-id'] )}}">Ver Cliente</a></li>
 						<li class="active">Crear Reservación</li>
 					</ol>
 				</header>
@@ -226,53 +228,56 @@
 													    </div>												        
 
 													</div>
-												</div>																									
+												</div>	
 
 												<div class="row">
 													<div class="form-group">
+														<div class='col-md-12 col-sm-12'>
+															<label><strong>Datos de los Acompañantes</strong></label>
 
-													    <div class='col-md-6 col-sm-6'>
+															<table id="myTable" class="table">
+															  	<tr>
+																	<th>Nombre y Apellido</th>
+																	<th>Cédula y Pasaporte</th>
+																	<th>Adulto/Niño</th>
+																	<th>País</th>
+																	<th><input class="btn btn-info" type="button" onclick="myFunction()" name="" value="Añadir"></th>
+																</tr>
 
-															<label><strong>Cantidad de Adultos *</strong></label>
-															<label class="input margin-bottom-10">
-															
-																<select name="contact-adultos" class="form-control pointer required">
-																	<option value="">Seleccione</option>
-																	<option value="1 Adulto">1 Adulto</option>
-																	<option value="2 Adulto">2 Adultos</option>
-																	<option value="3 Adulto">3 Adultos</option>
-																	<option value="4 Adulto">4 Adultos</option>
-																	<option value="5 Adulto">5 Adultos</option>
-																	<option value="6 Adulto">6 Adultos</option>
-																	<option value="7 Adulto">7 Adultos</option>
-																	<option value="8 Adulto">8 Adultos</option>
-																	<option value="9 Adulto">9 Adultos</option>
-
-																</select>
-
-															</label>
-
-													    </div>
-
-													    <div class='col-md-6 col-sm-6'>
-
-															<label><strong>Cantidad de Niños *</strong></label>
-															<label class="input margin-bottom-10">
-															
-																<select name="contact-ninos" class="form-control pointer required">			<option value="">Seleccione</option>			
-																	<option value="0 Niños">0 Niños</option>
-																	<option value="1 Niño">1 Niño</option>
-																	<option value="2 Niños">2 Niños</option>
-
-																</select>
-
-															</label>
-
-													    </div>													    
-
+															</table>
+														</div>													
 													</div>
 												</div>
 
+
+
+
+<script>
+    function myFunction() {
+        var table = document.getElementById("myTable");
+        var row = table.insertRow(1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+
+        cell1.innerHTML = '<input style="width: 100%; height: 45px; padding: 0 15px; letter-spacing: .4px; border: none; box-sizing: border-box;font: 14px/20px \'Open Sans\', sans-serif; z-index: 2;position: relative;"  name="acompanante-name[]" type="text" placeholder="Name and Surname" id="acompanante-name" value="" required/>';
+        cell2.innerHTML = '<input style="width: 100%; height: 45px; padding: 0 15px; letter-spacing: .4px; border: none; box-sizing: border-box;font: 14px/20px \'Open Sans\', sans-serif; z-index: 2;position: relative;" name="acompanante-cedula[]" type="number" placeholder="ID/Passport" id="acompanante-cedula" value="" required/>';
+        cell3.innerHTML= '<select name="acompanante-tipo[]" id="acompanante-tipo" style="width: 100%; height: 45px; padding: 0 15px; letter-spacing: .4px; border: none; box-sizing: border-box;font: 14px/20px \'Open Sans\', sans-serif; z-index: 2;position: relative;" required><option value="">Seleccione</option>@foreach ($tipoPersona as $tipo)<option value="{{ $tipo->id}}">{{ $tipo->str_descripcion }}</option>@endforeach</select>';
+        cell4.innerHTML= '<select name="acompanante-pais[]" id="acompanante-pais" style="width: 100%; height: 45px; padding: 0 15px; letter-spacing: .4px; border: none; box-sizing: border-box;font: 14px/20px \'Open Sans\', sans-serif; z-index: 2;position: relative;" required><option value="">Seleccione</option> @foreach ($paises as $pais)<option value="{{ $pais->id}}">{{ $pais->str_paises}}</option>@endforeach</select>';
+        cell5.innerHTML= '<input class="btn btn-danger" type="button" onclick="deleteRow(this)" name="" value="Quitar">';                        
+    }
+
+    function deleteRow(r) {
+        var i = r.parentNode.parentNode.rowIndex;
+        document.getElementById("myTable").deleteRow(i);
+    }                   
+</script> 
+
+
+
+					
 												<div class="row">
 
 													<div class="form-group">
@@ -299,11 +304,7 @@
 													</div>
 												</div>
 
-
-
 											</fieldset>
-
-
 
 										{!! Form::close() !!}
 
@@ -314,85 +315,10 @@
 
 						</div>
 
-
 					</div>
 
 				</div>
 			</section>
 			<!-- /MIDDLE -->
 
-<script type="text/javascript">
-
-	function todasEtiquetas() {
-
-		var categoria = document.getElementsByName("categoria");
-
-		if(categoria[0].checked == true){
-
-		    var x = document.getElementsByName("str_categoria[]");
-		    var i;
-		    for (i = 0; i < x.length; i++) {
-		        if (x[i].type == "checkbox") {
-		            x[i].checked = true;
-		        }
-		    }
-
-		}else{
-
-		    var x = document.getElementsByName("str_categoria[]");
-		    var i;
-		    for (i = 0; i < x.length; i++) {
-		        if (x[i].type == "checkbox") {
-		            x[i].checked = false;
-		        }
-		    }
-
-		}
-	}
-
-	function showfieldTipo(name){
-
-		if(name=='simple'){
-	  	
-	  		document.getElementById('div2').innerHTML='';
-
-	  	}else if (name=='imagen'){ 
-
-	  		document.getElementById('div2').innerHTML='<div class="row"><div class="form-group"><div class="col-md-12 col-sm-12"><label>Imágen del Post<small class="text-muted">(Opcional)</small></label><input type="file" id="blb_img1" name="blb_img1" data-btn-text="Buscar Foto" class="custom-file-upload required"><small class="text-muted block">Tamaño máximo: 1Mb (jpg/png) Medidas 1200 x 500</small></div></div></div>';
-
-		}else if (name=='carrusel-imagen'){ 
-
-	  		document.getElementById('div2').innerHTML='<div class="row"><div class="form-group"><div class="col-md-4 col-sm-4"><label>Imágen del Post N° 1<small class="text-muted">(Opcional)</small></label><input type="file" id="blb_img1" name="blb_img1" data-btn-text="Buscar Foto" class="custom-file-upload required"><small class="text-muted block">Tamaño máximo: 1Mb (jpg/png) Medidas 1200 x 500</small></div><div class="col-md-4 col-sm-4"><label>Imágen del Post N° 2<small class="text-muted">(Opcional)</small></label><input type="file" id="blb_img2" name="blb_img2" data-btn-text="Buscar Foto" class="custom-file-upload required"><small class="text-muted block">Tamaño máximo: 1Mb (jpg/png) Medidas 1200 x 500</small></div><div class="col-md-4 col-sm-4"><label>Imágen del Post N° 3<small class="text-muted">(Opcional)</small></label><input type="file" id="blb_img3" name="blb_img3" data-btn-text="Buscar Foto" class="custom-file-upload"><small class="text-muted block">Tamaño máximo: 1Mb (jpg/png) Medidas 1200 x 500</small></div></div></div>';
-
-		}else if (name=='video'){ 
-
-	  		document.getElementById('div2').innerHTML='<div class="row"><div class="form-group"><div class="col-md-12 col-sm-12"><label><i class="fa fa-video-camera" aria-hidden="true"></i> Link de Video</label><label class="input margin-bottom-10"> <select class="form-control required" onchange="showfield(this.options[this.selectedIndex].value)"> <option value="">Seleccione</option> <option value="youtube">YouTube</option> <option value="vimeo">Vimeo</option> </select> <div id="div1"></div><span class="tooltip tooltip-top-right">seleccione el tipo de video</span></label></div></div></div>';
-
-		}else if (name=='audio'){ 
-
-	  		document.getElementById('div2').innerHTML='<div class="row"><div class="form-group"><div class="col-md-12 col-sm-12"><label>Link de SoundCloud</label><label class="input"><i class="icon-append fa fa-soundcloud" aria-hidden="true"></i><textarea id="str_audio" name="str_audio" class="form-control required" placeholder="Ejemplo: <iframe width=100% height=450 scrolling=no frameborder=no src=https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/323193251&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true></iframe>" rows="4" cols="50"></textarea><span class="tooltip tooltip-top-right">Ingrese el link de SoundCloud</span></label></div></div></div>';
-
-		}
-
-	}
-
-
-	function showfield(name){
-
-		if(name=='youtube'){
-	  	
-	  		document.getElementById('div1').innerHTML='<textarea id="str_video" name="str_video" class="form-control required" placeholder="Ejemplo: <iframe class=embed-responsive-item width=560 height=315 src=http://www.youtube.com/embed/W7Las-MJnJo></iframe>" rows="4" cols="350"></textarea><span class="tooltip tooltip-top-right">Ingrese el link de video</span>';
-
-	  	}else if (name=='vimeo'){ 
-
-	  		document.getElementById('div1').innerHTML='<textarea id="str_video" name="str_video" class="form-control required" placeholder="Ejemplo: <iframe class=embed-responsive-item src=http://player.vimeo.com/video/8408210 width=800 height=450></iframe>" rows="4" cols="350"></textarea><span class="tooltip tooltip-top-right">Ingrese el link de video</span>';
-
-		}
-
-	}
-</script>
-
-
 @endsection
-
-

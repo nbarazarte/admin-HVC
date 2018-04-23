@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Reservaciones;
+use App\Acompanantes;
 use App\Categoria;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -191,24 +192,31 @@ class ReservacionController extends Controller
      */
     public function crearReservacion()
     {
-
         //dd(Session::get('test'));
 
         $datos = Session::get('datosReserva');
+
+        $paises = DB::table('cat_paises as p')
+            ->select('p.id','p.str_paises')
+            ->orderBy('p.str_paises','asc')
+            ->get();    
+
+        $tipoPersona = DB::table('cat_datos_maestros as dm')
+            ->where('dm.str_tipo', '=', 'tipo_persona')
+            ->select('dm.id','dm.str_descripcion')            
+            ->orderBy('dm.str_descripcion','asc')
+            ->get();   
 
         //dd($datos[0][0]['datos']);die();
 
         if(!empty($datos)) {
 
-            return view('reservaciones.crearReservacion',compact('datos'));
+            return view('reservaciones.crearReservacion',compact('datos','paises','tipoPersona'));
 
         }else{
 
             return view('index');
-
         }
-
-
     }
 
   /**
@@ -253,8 +261,12 @@ class ReservacionController extends Controller
             'contact-name' => 'required|max:255',
             'contact-phone' => 'required|max:255',
             'contact-precioHabitacion' => 'required|max:255',     
-            'contact-ninos' => 'required|max:255',
-            'contact-adultos' => 'required|max:255',
+            
+            /*
+                'contact-ninos' => 'required|max:255',
+                'contact-adultos' => 'required|max:255',
+            */
+
             'cant-dias' => 'required|max:255',
             'contact-totalPagar' => 'required|max:255',  
 
@@ -270,8 +282,7 @@ class ReservacionController extends Controller
     protected function create(array $data)
     {
 
-
-        return Reservaciones::create([
+        $reservaciones = Reservaciones::create([
 
             'lng_idpersona' => $data['contact-id'],
             'lng_idtipohab' => $data['contact-idHabitacion'],
@@ -282,17 +293,44 @@ class ReservacionController extends Controller
             'str_nombre' => $data['contact-name'],
             'str_telefono' => $data['contact-phone'],
             'dbl_precio' => $data['contact-precioHabitacion'],
-            'int_ninos' => $data['contact-ninos'],
-            'int_adultos' => $data['contact-adultos'],
+            'int_ninos' => 0,
+            'int_adultos' => 1,
             'int_dias' => $data['cant-dias'],
             'str_mensaje' => $data['contact-message'],
             'dbl_total_pagar' => $data['contact-totalPagar'],
             'str_tipo_reserva' => 'Hotel', 
 
         ]);
-  
-    }
 
+        $lastInsertedId = $reservaciones->id;
+
+        if(!empty($data['acompanante-name'])){
+
+            //dd($data['acompanante-name']);
+            //die();
+
+            $acompananteName = array_values($data['acompanante-name']);
+            $acompananteCedula = array_values($data['acompanante-cedula']);
+            $acompananteTipo = array_values($data['acompanante-tipo']);
+            $acompanantePais = array_values($data['acompanante-pais']);
+            
+            $total_acompanantes = count($acompananteName);
+            
+            for ($i = 0; $i <= $total_acompanantes - 1; $i++)
+            {
+                $acompanantesRes = Acompanantes::create([
+                    'lng_idreservacion' => $lastInsertedId,
+                    'str_nombre' => $acompananteName[$i],
+                    'str_ci_pasaporte' => $acompananteCedula[$i],
+                    'lng_idtipopersona' => $acompananteTipo[$i],
+                    'lng_idpais' => $acompanantePais[$i],
+                ]);
+            }
+        }
+
+        return $reservaciones;
+
+    }
 
     public function generarCodigo($longitud) {
         $key = '';
@@ -348,7 +386,7 @@ class ReservacionController extends Controller
             ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
             ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
             ->where('r.id', '=', $id)
-            ->select('r.id as idreservacion','r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
+            ->select('r.created_at','r.updated_at','r.id as idreservacion','r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
             ->orderBy('r.dmt_fecha_entrada','asc')
             ->get();  
 
@@ -365,9 +403,7 @@ class ReservacionController extends Controller
         return \View::make('reservaciones.reservacion', compact('reservaciones','acompanantes'));
     }
 
-
-
-        public function imprimirReservacion($id)
+    public function imprimirReservacion($id)
     {
     
         $reservaciones = DB::table('tbl_reservaciones as r')
@@ -375,7 +411,7 @@ class ReservacionController extends Controller
             ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
             ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
             ->where('r.id', '=', $id)
-            ->select('r.id as idreservacion','r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
+            ->select('r.created_at','r.updated_at','r.id as idreservacion','r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
             ->orderBy('r.dmt_fecha_entrada','asc')
             ->get();  
 

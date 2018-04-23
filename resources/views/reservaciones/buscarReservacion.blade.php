@@ -11,8 +11,6 @@
 				MIDDLE 
 			-->
 			<section id="middle">
-
-
 				<!-- page title -->
 				<header id="page-header">
 					<h1>Buscar Reservaciones</h1>
@@ -21,14 +19,10 @@
 					  <li class="active">Buscar Reservaciones</li>
 					</ol>
 
-
-					
 				</header>
 				<!-- /page title -->
 
-
 				<div id="content" class="padding-20">
-
 
 					<!-- 
 						PANEL CLASSES:
@@ -137,8 +131,17 @@
 													 {{ $reservacion->int_dias }}
 												</td>
 
-												<td> 
-													{{ $reservacion->str_tipo_reserva }}
+												<td>
+
+													@if($reservacion->str_tipo_reserva == 'Web')
+
+														<span class="label label-info">{{ $reservacion->str_tipo_reserva }}</span></h4>
+
+													@else
+
+														<span class="label label-danger">{{ $reservacion->str_tipo_reserva }}</span></h4>
+
+													@endif													
 
 												</td>
 												

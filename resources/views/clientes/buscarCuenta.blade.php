@@ -4,15 +4,12 @@
 
 @include('menu')
 
-
 <div id="pagina"></div>
 
 			<!-- 
 				MIDDLE 
 			-->
 			<section id="middle">
-
-
 				<!-- page title -->
 				<header id="page-header">
 					<h1>Buscar Clientes</h1>
@@ -20,15 +17,10 @@
 					 <li><a href="{{ route('home')}}">Dashboard</a></li>
 					  <li class="active">Buscar Clientes</li>
 					</ol>
-
-
-					
 				</header>
 				<!-- /page title -->
 
-
 				<div id="content" class="padding-20">
-
 
 					<!-- 
 						PANEL CLASSES:

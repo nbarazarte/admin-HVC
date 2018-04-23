@@ -114,9 +114,14 @@
 				<!-- BOX -->
 				<div class="box danger"><!-- default, danger, warning, info, success -->
 
+
+					@foreach ($reservacionesPaisesHoy as $resHoy)
+
+					@endforeach
+
 					<div class="box-title"><!-- add .noborder class if box-body is removed -->
 						<h4><a href="#">{!! $totalReservaciones !!} Reservaciones</a></h4>
-						<!--<small class="block">654 New fedbacks today</small>-->
+						<small class="block">{{ $resHoy->total }} Nuevas reservaciones hechas hoy</small>
 						<i class="fa fa fa-book"></i>
 					</div>
 
@@ -139,7 +144,7 @@
 
 					<div class="box-title"><!-- add .noborder class if box-body is removed -->
 						<h4>{!! $totalReservaciones !!}  Reservaciones</h4>
-						<!--<small class="block">1,2 M Profit for this month</small>-->
+						<small class="block">1,2 M Profit for this month</small>
 						<i class="fa fa-graduation-cap"></i>
 					</div>
 
@@ -179,7 +184,8 @@
 				<div id="panel-3" class="panel panel-default">
 					<div class="panel-heading">
 						<span class="title elipsis">
-							<strong>CLIENTES</strong> <!-- panel title -->
+							<strong>Reservaciones</strong> <!-- panel title -->
+
 						</span>
 					</div>
 
@@ -187,43 +193,26 @@
 					<div class="panel-body">
 
 						<ul class="list-unstyled list-hover slimscroll height-300" data-slimscroll-visible="true">
-							
-						@foreach ($clientes as $cliente) 
-							
-                            @if ($cliente->blb_img != "")
+
+							@foreach ($reservacionesPaises as $res) 
+
 								<li>									
-									<img src="data:image/jpeg;base64,{{ $cliente->blb_img }}" alt="{!! $cliente->name !!}" title="{!! $cliente->name !!}" height="34">
+									<img src="data:image/jpeg;base64,{{ $res->blb_img }}" alt="{!! $res->str_paises !!}" title="{!! $res->str_paises !!}" height="34">
 
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }} 
+									<b>{{ $res->total }}</b> : {{ $res->str_paises }} 
 								</li>
-							@else
+			
+							@endforeach
 
-							  @if ($cliente->str_genero == 'Masculino')
-							  	<li>
-									<img src="{{ asset('smarty/assets/images/user_masculino.png') }}" alt="" height="34">
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }}				  	
-								</li>
-							  @elseif ($cliente->str_genero == 'Femenino')
-								<li>
-									<img src="{{ asset('smarty/assets/images/user_femenino.png') }}" alt="" height="34">
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }}
-								</li>
-							  @endif
-
-							 @endif	
-
-						@endforeach
 						</ul>
 
 					</div>
 					<!-- /panel content -->
 
-
 				</div>
 				<!-- /PANEL -->
 
 			</div>
-
 
 			<div class="col-md-6">
 

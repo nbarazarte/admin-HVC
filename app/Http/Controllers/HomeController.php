@@ -34,6 +34,21 @@ class HomeController extends Controller
                 ->orderBy('name','asc')
                 ->get();
 
+        $reservacionesPaises = DB::select('SELECT COUNT(r.id) as total, p.str_paises, p.blb_img FROM tbl_reservaciones r
+                    join users as u on u.id = r.lng_idpersona
+                    join cat_paises as p on p.id = u.lng_idpais
+                    GROUP BY p.str_paises
+                    ORDER BY p.str_paises');
+
+        $reservacionesPaisesHoy = DB::select('SELECT COUNT(r.id) as total FROM tbl_reservaciones r
+                    join users as u on u.id = r.lng_idpersona
+                    join cat_paises as p on p.id = u.lng_idpais
+                    WHERE DATE(r.created_at) = DATE(NOW())
+                    GROUP BY p.str_paises
+                    ORDER BY p.str_paises');
+
+        //dd($reservacionesPaises);die();
+
         $reservaciones = DB::table('tbl_reservaciones')->get();
 
         $matrimonial = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
@@ -44,7 +59,7 @@ class HomeController extends Controller
 
         $duplex = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
 
-        return \View::make('index', compact('totalReservaciones','clientes','reservaciones','matrimonial','matrimonialSofa','doble','duplex'));
+        return \View::make('index', compact('totalReservaciones','clientes','reservaciones','matrimonial','matrimonialSofa','doble','duplex','reservacionesPaises','reservacionesPaisesHoy'));
     }
 
     /**
