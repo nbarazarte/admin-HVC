@@ -40,14 +40,16 @@ class HomeController extends Controller
                     GROUP BY p.str_paises
                     ORDER BY p.str_paises');
 
+        $hoy = date('Y-m-d');
+
         $reservacionesPaisesHoy = DB::select('SELECT COUNT(r.id) as total FROM tbl_reservaciones r
                     join users as u on u.id = r.lng_idpersona
                     join cat_paises as p on p.id = u.lng_idpais
-                    WHERE DATE(r.created_at) = DATE(NOW())
+                    WHERE DATE(r.updated_at) = "'.$hoy.'"
                     GROUP BY p.str_paises
                     ORDER BY p.str_paises');
 
-        //dd($reservacionesPaises);die();
+        //dd($reservacionesPaisesHoy);die();
 
         $reservaciones = DB::table('tbl_reservaciones')->get();
 

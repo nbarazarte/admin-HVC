@@ -114,14 +114,25 @@
 				<!-- BOX -->
 				<div class="box danger"><!-- default, danger, warning, info, success -->
 
-
 					@foreach ($reservacionesPaisesHoy as $resHoy)
 
 					@endforeach
 
+					<?php
+
+						if (!empty($reservacionesPaisesHoy)) {
+							
+							$hoy = $resHoy->total;
+
+						}else{
+							
+							$hoy = 0;
+						}
+
+					?>
 					<div class="box-title"><!-- add .noborder class if box-body is removed -->
 						<h4><a href="#">{!! $totalReservaciones !!} Reservaciones</a></h4>
-						<small class="block">{{ $resHoy->total }} Nuevas reservaciones hechas hoy</small>
+						<small class="block">{{ $hoy }} Nuevas reservaciones hechas hoy</small>
 						<i class="fa fa fa-book"></i>
 					</div>
 
