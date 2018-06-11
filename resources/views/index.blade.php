@@ -52,13 +52,44 @@
 
 				<?php
 
-					$porcentaje_matrimonial = ($matrimonial * 100) / $totalReservaciones;
+					if($matrimonial == 0){
 
-					$porcentaje_matrimonialSofa = ($matrimonialSofa * 100) / $totalReservaciones;
+						$porcentaje_matrimonial = 0;
 
-					$porcentaje_doble = ($doble * 100) / $totalReservaciones;
+					}else{
 
-					$porcentaje_duplex = ($duplex * 100) / $totalReservaciones;
+						$porcentaje_matrimonial = ($matrimonial * 100) / $totalReservaciones;
+					}
+
+					if ($matrimonialSofa == 0) {
+						
+						$porcentaje_matrimonialSofa = 0;
+
+					}else{
+
+						$porcentaje_matrimonialSofa = ($matrimonialSofa * 100) / $totalReservaciones;
+
+					}
+
+					if ($doble == 0) {
+						
+						$porcentaje_doble = 0;
+
+					}else{
+
+						$porcentaje_doble = ($doble * 100) / $totalReservaciones;
+
+					}
+
+					if ($duplex == 0) {
+						
+						$porcentaje_duplex = 0;
+
+					}else{
+
+						$porcentaje_duplex = ($duplex * 100) / $totalReservaciones;
+
+					}
 
 				?>
 
