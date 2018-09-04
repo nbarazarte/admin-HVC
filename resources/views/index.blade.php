@@ -61,13 +61,13 @@
 						$porcentaje_matrimonial = ($matrimonial * 100) / $totalReservaciones;
 					}
 
-					if ($matrimonialSofa == 0) {
+					if ($suite == 0) {
 						
-						$porcentaje_matrimonialSofa = 0;
+						$porcentaje_suite = 0;
 
 					}else{
 
-						$porcentaje_matrimonialSofa = ($matrimonialSofa * 100) / $totalReservaciones;
+						$porcentaje_suite = ($suite * 100) / $totalReservaciones;
 
 					}
 
@@ -81,13 +81,13 @@
 
 					}
 
-					if ($duplex == 0) {
+					if ($familiar == 0) {
 						
-						$porcentaje_duplex = 0;
+						$porcentaje_familiar = 0;
 
 					}else{
 
-						$porcentaje_duplex = ($duplex * 100) / $totalReservaciones;
+						$porcentaje_familiar = ($familiar * 100) / $totalReservaciones;
 
 					}
 
@@ -103,10 +103,10 @@
 						</span> 
 					</li>
 					<li class="clearfix">
-						<span class="stat-number">{{ $matrimonialSofa }}</span>
-						<span class="stat-title"><strong>Matrimonial + Sofá</strong></span>
+						<span class="stat-number">{{ $suite }}</span>
+						<span class="stat-title"><strong>Suite</strong></span>
 
-						<span class="easyPieChart" data-percent="{{ $porcentaje_matrimonialSofa }}" data-easing="easeOutBounce" data-barColor="#F47741" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+						<span class="easyPieChart" data-percent="{{ $suite }}" data-easing="easeOutBounce" data-barColor="#F47741" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 							<span class="percent"></span>
 						</span> 
 					</li>
@@ -119,10 +119,10 @@
 						</span> 
 					</li>
 					<li class="clearfix">
-						<span class="stat-number">{{ $duplex }}</span>
-						<span class="stat-title"><strong>Duplex</strong></span>
+						<span class="stat-number">{{ $familiar }}</span>
+						<span class="stat-title"><strong>Familiar</strong></span>
 
-						<span class="easyPieChart" data-percent="{{ $porcentaje_duplex }}" data-easing="easeOutBounce" data-barColor="#7952A1" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+						<span class="easyPieChart" data-percent="{{ $porcentaje_familiar }}" data-easing="easeOutBounce" data-barColor="#7952A1" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 							<span class="percent"></span>
 						</span> 
 					</li>
@@ -164,14 +164,10 @@
 					<div class="box-title"><!-- add .noborder class if box-body is removed -->
 						<h4><a href="#">{!! $totalReservaciones !!} Reservaciones</a></h4>
 						<small class="block">{{ $hoy }} Nuevas reservaciones hechas hoy</small>
-						<i class="fa fa fa-book"></i>
+						<i class="fa fa fa-bed"></i>
 					</div>
 
-					<div class="box-body text-center">
-						<span class="sparkline" data-plugin-options='{"type":"bar","barColor":"#ffffff","height":"35px","width":"100%","zeroAxis":"false","barSpacing":"2"}'>
-							331,265,456,411,367,319,402,312,300,312,283,384,372,269,402,319,416,355,416,371,423,259,361,312,269,402,327,331,265,456,411,367,319,402,312,300,312,283,384,372,269,402,319,416,355,416,371,423,259,361,312,269,402,327
-						</span>
-					</div>
+
 
 				</div>
 				<!-- /BOX -->
@@ -184,17 +180,29 @@
 				<!-- BOX -->
 				<div class="box warning"><!-- default, danger, warning, info, success -->
 
+					@foreach ($clientesPaisesHoy as $clientesHoy)
+
+					@endforeach
+
+					<?php
+
+						if (!empty($clientesPaisesHoy)) {
+							
+							$hoyClientes = $clientesHoy->total;
+
+						}else{
+							
+							$hoyClientes = 0;
+						}
+
+					?>					
+
 					<div class="box-title"><!-- add .noborder class if box-body is removed -->
 						<h4>{!! $totalClientes !!}  Clientes</h4>
-						<small class="block">1,2 M Profit for this month</small>
-						<i class="fa fa-graduation-cap"></i>
+						<small class="block">{{ $hoyClientes }} Nuevos Clientes hoy</small>
+						<i class="fa fa-users"></i>
 					</div>
 
-					<div class="box-body text-center">
-						<span class="sparkline" data-plugin-options='{"type":"bar","barColor":"#ffffff","height":"35px","width":"100%","zeroAxis":"false","barSpacing":"2"}'>
-							331,265,456,411,367,319,402,312,300,312,283,384,372,269,402,319,416,355,416,371,423,259,361,312,269,402,327,331,265,456,411,367,319,402,312,300,312,283,384,372,269,402,319,416,355,416,371,423,259,361,312,269,402,327
-						</span>
-					</div>
 
 				</div>
 				<!-- /BOX -->
@@ -242,6 +250,8 @@
 									<img src="data:image/jpeg;base64,{{ $res->blb_img }}" alt="{!! $res->str_paises !!}" title="{!! $res->str_paises !!}" height="34"> {{ $res->str_paises }} : <b>{{ $res->total }}</b> 
 								</li>
 			
+
+
 							@endforeach
 
 						</ul>
@@ -285,19 +295,19 @@
 								<li>									
 									<img src="data:image/jpeg;base64,{{ $cliente->blb_img }}" alt="{!! $cliente->name !!}" title="{!! $cliente->name !!}" height="34">
 
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }} 
+									<b>{{ ucwords(strtolower($cliente->name)) }}</b> : {{ $cliente->str_paises }} 
 								</li>
 							@else
 
 							  @if ($cliente->str_genero == 'Masculino')
 							  	<li>
 									<img src="{{ asset('smarty/assets/images/user_masculino.png') }}" alt="" height="34">
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }}				  	
+									<b>{{ ucwords(strtolower($cliente->name)) }}</b> : {{ $cliente->str_paises }}				  	
 								</li>
 							  @elseif ($cliente->str_genero == 'Femenino')
 								<li>
 									<img src="{{ asset('smarty/assets/images/user_femenino.png') }}" alt="" height="34">
-									<b>{{ $cliente->name }}</b> : {{ $cliente->str_paises }}
+									<b>{{ ucwords(strtolower($cliente->name)) }}</b> : {{ $cliente->str_paises }}
 								</li>
 							  @endif
 

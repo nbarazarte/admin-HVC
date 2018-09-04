@@ -109,7 +109,7 @@
 												</td>												
 
 												<td>
-													 	{{ ucfirst($cliente->name) }} 
+													 	{{ ucwords(strtolower($cliente->name)) }} 
 												</td>
 												<td>
 

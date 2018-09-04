@@ -51,24 +51,32 @@ class HomeController extends Controller
 
         $reservacionesPaisesHoy = DB::select('SELECT COUNT(r.id) as total FROM tbl_reservaciones r
                     join users as u on u.id = r.lng_idpersona
-                    join cat_paises as p on p.id = u.lng_idpais
+                    left join cat_paises as p on p.id = u.lng_idpais
                     WHERE DATE(r.updated_at) = "'.$hoy.'"
                     GROUP BY p.str_paises
                     ORDER BY p.str_paises');
+
+
+        $clientesPaisesHoy = DB::select('SELECT COUNT(u.id) as total FROM users u
+                    
+                    left join cat_paises as p on p.id = u.lng_idpais
+                    WHERE DATE(u.updated_at) = "'.$hoy.'"
+                    GROUP BY p.str_paises
+                    ORDER BY p.str_paises');        
 
         //dd($reservacionesPaisesHoy);die();
 
         $reservaciones = DB::table('tbl_reservaciones')->get();
 
-        $matrimonial = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
+        $matrimonial = DB::table('tbl_reservaciones')->where('lng_idtipohab', 1)->count();
 
-        $matrimonialSofa = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
+        $suite = DB::table('tbl_reservaciones')->where('lng_idtipohab', 2)->count();
 
-        $doble = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
+        $doble = DB::table('tbl_reservaciones')->where('lng_idtipohab', 3)->count();
 
-        $duplex = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
+        $familiar = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
 
-        return \View::make('index', compact('totalReservaciones','totalClientes','clientes','reservaciones','matrimonial','matrimonialSofa','doble','duplex','reservacionesPaises','reservacionesPaisesHoy'));
+        return \View::make('index', compact('totalReservaciones','totalClientes','clientes','reservaciones','matrimonial','suite','doble','familiar','reservacionesPaises','reservacionesPaisesHoy','clientesPaisesHoy'));
     }
 
     /**

@@ -87,7 +87,7 @@
 												</td>
 
 												<td>
-														{{ ucfirst($reservacion->str_nombre) }}
+														{{ ucwords(strtolower($reservacion->str_nombre)) }}
 												</td>
 
 												<td>

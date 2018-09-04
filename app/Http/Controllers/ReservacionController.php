@@ -355,7 +355,7 @@ class ReservacionController extends Controller
         $reservaciones = DB::table('tbl_reservaciones as r')
                 ->join('users as u', 'u.id', '=', 'r.lng_idpersona')
                 ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
-                ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
+                ->leftjoin('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
                 ->select('r.*', 'r.id as idreservacion','u.*','h.*','p.blb_img as bandera','p.str_paises')
                 ->orderBy('r.dmt_fecha_entrada','asc')
                 ->get();
@@ -384,7 +384,7 @@ class ReservacionController extends Controller
         $reservaciones = DB::table('tbl_reservaciones as r')
             ->join('users as u', 'u.id', '=', 'r.lng_idpersona')
             ->join('cat_habitaciones as h', 'h.id', '=', 'r.lng_idtipohab')
-            ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
+            ->leftjoin('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
             ->where('r.id', '=', $id)
             ->select('r.created_at','r.updated_at','r.id as idreservacion','r.str_estatus_pago','str_email','str_nombre','r.str_telefono','dbl_precio','dbl_total_pagar','int_ninos','int_adultos','int_dias','str_mensaje','dmt_fecha_entrada','dmt_fecha_salida','str_tipo_reserva', 'u.name','u.email','u.str_telefono as phone','u.str_ci_pasaporte','u.str_genero','h.*','p.blb_img as bandera','p.str_paises')
             ->orderBy('r.dmt_fecha_entrada','asc')
