@@ -185,7 +185,7 @@
 				<div class="box warning"><!-- default, danger, warning, info, success -->
 
 					<div class="box-title"><!-- add .noborder class if box-body is removed -->
-						<h4>{!! $totalReservaciones !!}  Reservaciones</h4>
+						<h4>{!! $totalClientes !!}  Clientes</h4>
 						<small class="block">1,2 M Profit for this month</small>
 						<i class="fa fa-graduation-cap"></i>
 					</div>

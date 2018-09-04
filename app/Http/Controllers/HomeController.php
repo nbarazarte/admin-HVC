@@ -26,17 +26,24 @@ class HomeController extends Controller
     {
         
         $totalReservaciones = DB::table('tbl_reservaciones')->count();
+        $totalClientes = DB::table('users')->count();
 
-        $clientes = DB::table('users as u')
+        /*$clientes = DB::table('users as u')
                 ->join('cat_paises as p', 'p.id', '=', 'u.lng_idpais')
                 ->select('u.id','name','email','str_ci_pasaporte','u.blb_img','str_genero','lng_idpais','p.str_paises')
                 ->where('u.bol_eliminado', '=' ,0)                
                 ->orderBy('name','asc')
-                ->get();
+                ->get();*/
+
+        $clientes = DB::select('SELECT u.id, name,email,str_ci_pasaporte,u.blb_img,str_genero,lng_idpais,p.str_paises
+                    from users as u
+                    left join cat_paises p on p.id = u.lng_idpais
+                    where u.bol_eliminado = 0
+                    order by u.name asc');
 
         $reservacionesPaises = DB::select('SELECT COUNT(r.id) as total, p.str_paises, p.blb_img FROM tbl_reservaciones r
                     join users as u on u.id = r.lng_idpersona
-                    join cat_paises as p on p.id = u.lng_idpais
+                    left join cat_paises as p on p.id = u.lng_idpais
                     GROUP BY p.str_paises
                     ORDER BY p.str_paises');
 
@@ -61,7 +68,7 @@ class HomeController extends Controller
 
         $duplex = DB::table('tbl_reservaciones')->where('lng_idtipohab', 4)->count();
 
-        return \View::make('index', compact('totalReservaciones','clientes','reservaciones','matrimonial','matrimonialSofa','doble','duplex','reservacionesPaises','reservacionesPaisesHoy'));
+        return \View::make('index', compact('totalReservaciones','totalClientes','clientes','reservaciones','matrimonial','matrimonialSofa','doble','duplex','reservacionesPaises','reservacionesPaisesHoy'));
     }
 
     /**
